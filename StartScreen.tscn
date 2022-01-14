@@ -1,0 +1,141 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://theme.tres" type="Theme" id=1]
+[ext_resource path="res://smallfont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://StartScreen.gd" type="Script" id=4]
+
+[node name="StartScreen" type="CanvasLayer"]
+script = ExtResource( 4 )
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+margin_left = 118.0
+margin_top = 59.0
+margin_right = 201.0
+margin_bottom = 261.0
+custom_constants/separation = 4
+
+[node name="StartButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
+margin_left = 5.0
+margin_right = 77.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 72, 32 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "start"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/CenterContainer/VBoxContainer"]
+margin_top = 36.0
+margin_right = 83.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 0, 21 )
+
+[node name="LoadButton" type="Button" parent="Control/CenterContainer/VBoxContainer/HBoxContainer"]
+margin_left = 5.0
+margin_right = 77.0
+margin_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 72, 32 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+text = "load"
+
+[node name="Spinbox" type="SpinBox" parent="Control/CenterContainer/VBoxContainer/HBoxContainer"]
+visible = false
+margin_left = 76.0
+margin_right = 165.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
+rect_pivot_offset = Vector2( 43, 3 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+min_value = 1.0
+max_value = 60.0
+page = 1.0
+value = 1.0
+rounded = true
+align = 1
+
+[node name="ContinueButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
+margin_top = 72.0
+margin_right = 83.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 83, 32 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "continue"
+
+[node name="Gap2" type="Control" parent="Control/CenterContainer/VBoxContainer"]
+margin_top = 108.0
+margin_right = 83.0
+margin_bottom = 112.0
+rect_min_size = Vector2( 0, 4 )
+
+[node name="QuitButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
+margin_left = 5.0
+margin_top = 116.0
+margin_right = 77.0
+margin_bottom = 148.0
+rect_min_size = Vector2( 72, 32 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+text = "exit(!)"
+
+[node name="LoadScreenButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
+visible = false
+margin_top = 152.0
+margin_right = 144.0
+margin_bottom = 184.0
+rect_min_size = Vector2( 144, 32 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+text = "test load screen"
+
+[node name="Gap" type="Control" parent="Control/CenterContainer/VBoxContainer"]
+margin_top = 152.0
+margin_right = 83.0
+margin_bottom = 202.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="Label" type="Label" parent="Control"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 41.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 2 )
+text = "(c) bendn"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hi" type="Label" parent="Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -96.0
+margin_top = 16.0
+margin_right = -24.0
+margin_bottom = 30.0
+text = "highscore:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/HBoxContainer/LoadButton" to="." method="_on_LoadButton_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/LoadScreenButton" to="." method="_on_LoadScreenButton_pressed"]

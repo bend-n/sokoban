@@ -1,0 +1,114 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://theme.tres" type="Theme" id=1]
+[ext_resource path="res://Settings.gd" type="Script" id=2]
+
+[node name="SettingsMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+vsyncbutton = NodePath("ColorRect/VBoxContainer/HBoxContainer/VscynButton")
+fullscreenbutton = NodePath("ColorRect/VBoxContainer/HBoxContainer/FullscreenButton")
+resolution_input = NodePath("ColorRect/VBoxContainer/HBoxContainer2/ResolutionHolder/ResolutionInput")
+stopwatchbox = NodePath("ColorRect/VBoxContainer/HBoxContainer2/StopwatchBox")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.615686 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExitButton" type="Button" parent="ColorRect"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -32.0
+margin_top = -32.0
+margin_right = 32.0
+margin_bottom = -8.0
+rect_min_size = Vector2( 64, 0 )
+text = "back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 312.0
+margin_bottom = 112.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer"]
+margin_right = 304.0
+margin_bottom = 30.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VscynButton" type="CheckBox" parent="ColorRect/VBoxContainer/HBoxContainer"]
+margin_right = 86.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 86, 30 )
+text = "vsyc"
+align = 1
+
+[node name="FullscreenButton" type="CheckBox" parent="ColorRect/VBoxContainer/HBoxContainer"]
+margin_left = 90.0
+margin_right = 225.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 135, 30 )
+pressed = true
+text = "fullscreen"
+align = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ColorRect/VBoxContainer"]
+margin_top = 34.0
+margin_right = 304.0
+margin_bottom = 64.0
+
+[node name="ResolutionHolder" type="VBoxContainer" parent="ColorRect/VBoxContainer/HBoxContainer2"]
+visible = false
+margin_right = 104.0
+margin_bottom = 30.0
+
+[node name="ResolutionButton" type="Button" parent="ColorRect/VBoxContainer/HBoxContainer2/ResolutionHolder"]
+margin_right = 104.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 104, 30 )
+text = "resolution"
+
+[node name="ResolutionInput" type="LineEdit" parent="ColorRect/VBoxContainer/HBoxContainer2/ResolutionHolder"]
+visible = false
+margin_top = 34.0
+margin_right = 104.0
+margin_bottom = 55.0
+align = 1
+expand_to_text_length = true
+placeholder_text = "1280x720"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StopwatchBox" type="CheckBox" parent="ColorRect/VBoxContainer/HBoxContainer2"]
+margin_right = 215.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 215, 30 )
+text = "speedrunner mode"
+align = 1
+
+[connection signal="pressed" from="ColorRect/ExitButton" to="." method="_on_ExitButton_pressed"]
+[connection signal="toggled" from="ColorRect/VBoxContainer/HBoxContainer/VscynButton" to="." method="_on_VscynButton_toggled"]
+[connection signal="toggled" from="ColorRect/VBoxContainer/HBoxContainer/FullscreenButton" to="." method="_on_FullscreenButton_toggled"]
+[connection signal="pressed" from="ColorRect/VBoxContainer/HBoxContainer2/ResolutionHolder/ResolutionButton" to="." method="_on_ResolutionButton_pressed"]
+[connection signal="text_entered" from="ColorRect/VBoxContainer/HBoxContainer2/ResolutionHolder/ResolutionInput" to="." method="_on_ResolutionInput_text_entered"]
+[connection signal="toggled" from="ColorRect/VBoxContainer/HBoxContainer2/StopwatchBox" to="." method="_on_StopwatchBox_toggled"]

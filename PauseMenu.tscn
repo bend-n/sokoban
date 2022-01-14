@@ -1,0 +1,87 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://theme.tres" type="Theme" id=1]
+[ext_resource path="res://pause.png" type="Texture" id=2]
+[ext_resource path="res://PauseMenu.gd" type="Script" id=3]
+
+[node name="PauseMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.27451 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect"]
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 64.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 16.0
+margin_bottom = 202.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CenterContainer"]
+margin_left = 115.0
+margin_right = 205.0
+margin_bottom = 506.0
+custom_constants/separation = 4
+
+[node name="QuitButton" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
+margin_right = 90.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 90, 30 )
+size_flags_vertical = 0
+text = "exit(!)"
+
+[node name="SettingsButton" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
+margin_top = 34.0
+margin_right = 90.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 90, 30 )
+size_flags_vertical = 0
+text = "back"
+
+[node name="Gap2" type="Control" parent="ColorRect/CenterContainer/VBoxContainer"]
+margin_top = 68.0
+margin_right = 90.0
+margin_bottom = 68.0
+
+[node name="Back" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
+margin_top = 72.0
+margin_right = 90.0
+margin_bottom = 102.0
+rect_min_size = Vector2( 90, 30 )
+size_flags_vertical = 0
+text = "back"
+
+[node name="Gap" type="Control" parent="ColorRect/CenterContainer/VBoxContainer"]
+margin_top = 106.0
+margin_right = 90.0
+margin_bottom = 506.0
+rect_min_size = Vector2( 0, 400 )
+
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/Back" to="." method="_on_Back_pressed"]

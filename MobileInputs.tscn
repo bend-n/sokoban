@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://arrow.png" type="Texture" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 6.0
+
+[node name="MobileInputs" type="CanvasLayer"]
+
+[node name="Node2d" type="Node2D" parent="."]
+
+[node name="Floor" type="Sprite" parent="Node2d"]
+self_modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 50, 227 )
+rotation = -3.14159
+scale = Vector2( 1.5, 1.5 )
+
+[node name="Left" type="TouchScreenButton" parent="Node2d/Floor"]
+position = Vector2( 9, -7 )
+rotation = -6.3573e-08
+scale = Vector2( 2, 2 )
+normal = ExtResource( 1 )
+shape = SubResource( 1 )
+passby_press = true
+action = "ui_left"
+visibility_mode = 1
+
+[node name="Right" type="TouchScreenButton" parent="Node2d/Floor"]
+position = Vector2( -9, 7 )
+rotation = 3.14159
+scale = Vector2( 2, 2 )
+normal = ExtResource( 1 )
+shape = SubResource( 1 )
+passby_press = true
+action = "ui_right"
+visibility_mode = 1
+
+[node name="Down" type="TouchScreenButton" parent="Node2d/Floor"]
+position = Vector2( -7, -9 )
+rotation = -1.5708
+scale = Vector2( 2, 2 )
+normal = ExtResource( 1 )
+shape = SubResource( 1 )
+passby_press = true
+action = "ui_right"
+visibility_mode = 1
+
+[node name="Up" type="TouchScreenButton" parent="Node2d/Floor"]
+position = Vector2( 7, 9 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+normal = ExtResource( 1 )
+shape = SubResource( 1 )
+passby_press = true
+action = "ui_right"
+visibility_mode = 1

@@ -1,0 +1,99 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=2]
+[ext_resource path="res://StopWatch.gd" type="Script" id=3]
+[ext_resource path="res://theme.tres" type="Theme" id=4]
+
+[sub_resource type="DynamicFont" id=2]
+size = 9
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 9
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 38
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[node name="HUD" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MovesLabel" type="Label" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -104.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = 28.0
+text = "Moves: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hint" type="Label" parent="."]
+visible = false
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = -24.0
+margin_right = 170.0
+margin_bottom = -8.0
+custom_fonts/font = SubResource( 2 )
+text = "press q to screenshot"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hint2" type="Label" parent="."]
+visible = false
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = -48.0
+margin_right = 170.0
+margin_bottom = -25.0
+custom_fonts/font = SubResource( 3 )
+text = "esc to restart
+tab to pause"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LevelLabel" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -176.0
+margin_top = -48.0
+margin_right = -24.0
+margin_bottom = -9.0
+custom_fonts/font = SubResource( 1 )
+text = "Level = "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StopWatch" type="Label" parent="."]
+pause_mode = 1
+visible = false
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 116.0
+margin_bottom = 36.0
+text = "1:0:2"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
