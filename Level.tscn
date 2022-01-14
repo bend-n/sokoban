@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Level.gd" type="Script" id=3]
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="LevelContainer" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player" parent="LevelContainer" instance=ExtResource( 1 )]
+position = Vector2( 168, 152 )
+
+[node name="Targets" type="Node2D" parent="LevelContainer"]
+
+[node name="Crates" type="Node2D" parent="LevelContainer"]
+
+[node name="Walls" type="Node2D" parent="LevelContainer"]
+
+[node name="Floors" type="Node2D" parent="LevelContainer"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource( 2 )]
