@@ -1,9 +1,11 @@
 extends CanvasLayer
 
+var player : KinematicBody2D
+
 func show(integer):
 	$Container/AnimationPlayer.play("Animate")
 	$Container.visible = true
-	$Container/Label._dialogue(" %s COMPLETED PRESS enter TO CONTINUE" % integer)
+	$Container/Label._dialogue("LEVEL %s COMPLETED PRESS enter TO CONTINUE" % integer)
 
 func hide(backwards = true):
 	if backwards:

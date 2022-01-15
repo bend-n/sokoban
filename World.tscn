@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://StartScreen.tscn" type="PackedScene" id=2]
 [ext_resource path="res://World.gd" type="Script" id=3]
 [ext_resource path="res://WinScreen.tscn" type="PackedScene" id=4]
+[ext_resource path="res://arrow.png" type="Texture" id=5]
+[ext_resource path="res://Floor.png" type="Texture" id=6]
 
 [node name="World" type="Node2D"]
 script = ExtResource( 3 )
@@ -11,8 +14,56 @@ script = ExtResource( 3 )
 visible = false
 color = Color( 0.415686, 0.415686, 0.415686, 1 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
 [node name="Level" parent="." instance=ExtResource( 1 )]
+visible = false
 
 [node name="WinScreen" parent="." instance=ExtResource( 4 )]
+
+[node name="StartScreen" parent="." instance=ExtResource( 2 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Node2d" type="Node2D" parent="CanvasLayer"]
+
+[node name="Floor" type="Sprite" parent="CanvasLayer/Node2d"]
+self_modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 50, 227 )
+rotation = -3.14159
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 6 )
+
+[node name="Left" type="TouchScreenButton" parent="CanvasLayer/Node2d/Floor"]
+position = Vector2( 9, -7 )
+rotation = -6.3573e-08
+scale = Vector2( 2, 2 )
+normal = ExtResource( 5 )
+passby_press = true
+action = "ui_left"
+visibility_mode = 1
+
+[node name="Right" type="TouchScreenButton" parent="CanvasLayer/Node2d/Floor"]
+position = Vector2( -9, 7 )
+rotation = 3.14159
+scale = Vector2( 2, 2 )
+normal = ExtResource( 5 )
+passby_press = true
+action = "ui_right"
+visibility_mode = 1
+
+[node name="Down" type="TouchScreenButton" parent="CanvasLayer/Node2d/Floor"]
+position = Vector2( -7, -9 )
+rotation = -1.5708
+scale = Vector2( 2, 2 )
+normal = ExtResource( 5 )
+passby_press = true
+action = "ui_right"
+visibility_mode = 1
+
+[node name="Up" type="TouchScreenButton" parent="CanvasLayer/Node2d/Floor"]
+position = Vector2( 7, 9 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+normal = ExtResource( 5 )
+passby_press = true
+action = "ui_right"
+visibility_mode = 1

@@ -4,7 +4,7 @@ signal level_reset_requested()
 
 const GRID_SIZE = 16
 
-var moves = 0
+var moves = 0 setget set_moves
 
 var last_move = null
 var last_move_crate = null
@@ -31,7 +31,7 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("level_reload"):
 		emit_signal("level_reset_requested")
 		_animate(Vector2.DOWN, false)
-		_update_moves(0)
+		set_moves(0)
 		last_move = null
 		last_move_crate = null
 		return
@@ -40,7 +40,7 @@ func _unhandled_input(event):
 			self.position -= last_move * GRID_SIZE
 			if last_move_crate != null:
 				last_move_crate.position -= last_move * GRID_SIZE
-			_update_moves(moves - 1)
+			set_moves(moves - 1)
 			last_move = null
 			last_move_crate = null
 		return
@@ -68,7 +68,7 @@ func _unhandled_input(event):
 		else:
 			last_move_crate = null
 		
-		_update_moves(moves + 1)
+		set_moves(moves + 1)
 		last_move = move_intent
 		
 		tween.interpolate_property(
@@ -83,7 +83,7 @@ func _unhandled_input(event):
 		
 		_animate(move_intent, true)
 
-func _update_moves(new_moves: int):
+func set_moves(new_moves: int):
 	moves = new_moves
 	$"../../CanvasLayer/HUD/MovesLabel".text = "Moves: " + str(moves)
 

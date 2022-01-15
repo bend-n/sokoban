@@ -15,7 +15,7 @@ __meta__ = {
 }
 
 [node name="Player" parent="LevelContainer" instance=ExtResource( 1 )]
-position = Vector2( 168, 152 )
+position = Vector2( 168, 80 )
 
 [node name="Targets" type="Node2D" parent="LevelContainer"]
 
@@ -28,3 +28,4 @@ position = Vector2( 168, 152 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource( 2 )]
+visible = false

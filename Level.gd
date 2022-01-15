@@ -6,6 +6,7 @@ var wall_prefab = load("res://Wall.tscn")
 var floor_prefab = load("res://Floor.tscn")
 var crate_prefab = load("res://Crate.tscn")
 var target_prefab = load("res://Target.tscn")
+onready var original_zoom = $LevelContainer/Player/Camera2D.zoom
 
 var current_level: String = ""
 
@@ -18,6 +19,7 @@ func _ready():
 	$LevelContainer/Player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
 
 func load_level(level: String):
+	$LevelContainer/Player.set_moves(0)
 	current_level = level
 	_reset_level()
 
@@ -83,13 +85,16 @@ func _reset_level():
 			level_size.x = max(level_size.x, col)
 			
 	file.close()
+	var new_zoom = original_zoom
+	var level_int
+	if level_size.x > level_size.y:
+		level_int = level_size.x
+	else:
+		level_int = level_size.y
 	
-#	$LevelContainer.rect_pivot_offset = level_size * GRID_SIZE / 2
-#	$LevelContainer.margin_left = -level_size.x * GRID_SIZE / 2
-#	$LevelContainer.margin_right = level_size.x * GRID_SIZE / 2
-#	$LevelContainer.margin_top = -level_size.y * GRID_SIZE / 2
-#	$LevelContainer.margin_bottom = level_size.x * GRID_SIZE / 2
-#	$LevelContainer.rect_size = level_size * GRID_SIZE
+	new_zoom += Vector2(level_int / 90, level_int / 90)
+	$LevelContainer/Player/Camera2D.zoom = new_zoom
+	$CanvasLayer/HUD/LevelLabel.text = "Level = %s" %current_level
 
 static func delete_children(node):
 	for n in node.get_children():
