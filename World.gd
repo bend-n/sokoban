@@ -1,31 +1,67 @@
 extends Node2D
 
+export(Color) var color
+
 var currentintlevel := 1
 var screenshots = 0
+var game_over = false
 
 const path = "user://"
 
 func _ready():
 	$WinScreen.player = $Level/LevelContainer/Player
-	VisualServer.set_default_clear_color(Color.black)
+	VisualServer.set_default_clear_color(color)
 	$WinScreen.hide(false)
 	$Level.connect("level_completed", self, "_on_Level_level_completed")
 	$Level.connect("level_reset", self, "_on_Level_level_reset")
+	$Level.connect("game_over", self, "_on_Level_game_over")
 	$StartScreen.connect("start", self, "_on_start_start")
 	$StartScreen.connect("load_level", self, "_on_start_load")
 
 func _on_Level_level_completed():
 	$WinScreen.show(str($Level.current_level))
+	game_over = false
 
 func _on_Level_level_reset():
-	$WinScreen.hide(false)
+	$WinScreen.hide(true)
+	$GameoverScreen.hide(true)
+	game_over = false
+
+func _on_Level_game_over():
+	game_over = true
+	if not $GameoverScreen.shown:
+		$GameoverScreen.show(str($Level.current_level))
+
+
+onready var cam = $Level/LevelContainer/Player.cam
+
+var max_zoom = 3
+var min_zoom = .25
 
 func _input(event : InputEvent):
-	if event.is_action_released("ui_accept") and $WinScreen/Container.visible:
-		currentintlevel += 1
-		$WinScreen.hide()
-		$Level.load_level(str(currentintlevel))
+
+	if event.is_action("scrollup"):
+		var new_zoom = cam.zoom.x
+		new_zoom += .01
+		new_zoom = clamp(new_zoom, min_zoom, max_zoom)
+		cam.zoom = Vector2(new_zoom, new_zoom)
 	
+	elif event.is_action("scrolldown"):
+		var new_zoom = cam.zoom.x
+		new_zoom -= .03
+		new_zoom = clamp(new_zoom, min_zoom, max_zoom)
+		cam.zoom = Vector2(new_zoom, new_zoom)
+	
+	if event.is_action_released("ui_accept"):
+		if $WinScreen.shown:
+			currentintlevel += 1
+			$WinScreen.hide(true)
+			$Level.load_level(str(currentintlevel))
+		elif $GameoverScreen.shown:
+			$GameoverScreen.hide(true)
+			game_over = false
+			$Level.load_level(str(currentintlevel))
+		
 	elif event.is_action_released("prtscrn"):
 		screenshots += 1
 		screenshots = clamp(screenshots, 0, 20)

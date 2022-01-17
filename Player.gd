@@ -9,6 +9,7 @@ var moves = 0 setget set_moves
 var last_move = null
 var last_move_crate = null
 
+onready var cam = $Camera2D
 onready var tween = $Tween
 onready var ray = $RayCast2D
 onready var dir = $Direction

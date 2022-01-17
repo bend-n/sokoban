@@ -5,6 +5,6 @@
 [node name="Floor" type="Node2D"]
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 1, 1, 1, 0.380392 )
 texture = ExtResource( 1 )
 centered = false

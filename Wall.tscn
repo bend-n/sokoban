@@ -8,7 +8,8 @@ extents = Vector2( 8, 8 )
 [sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( 0, 0, 0, 16, 16, 16, 16, 0 )
 
-[node name="Wall" type="StaticBody2D"]
+[node name="Wall" type="StaticBody2D" groups=["wall"]]
+collision_layer = 3
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

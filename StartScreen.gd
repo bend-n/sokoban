@@ -25,4 +25,5 @@ func hide():
 
 func _on_spinbox_entered(text):
 	level_to_load = int(text)
+	level_to_load = clamp(level_to_load, 1, 60)
 	emit_signal("load_level", level_to_load)

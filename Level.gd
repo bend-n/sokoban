@@ -6,12 +6,14 @@ var wall_prefab = load("res://Wall.tscn")
 var floor_prefab = load("res://Floor.tscn")
 var crate_prefab = load("res://Crate.tscn")
 var target_prefab = load("res://Target.tscn")
-onready var original_zoom = $LevelContainer/Player/Camera2D.zoom
 
-var current_level: String = ""
+onready var cam = $LevelContainer/Player/Camera2D
+
+var current_level := ""
 
 var level_size = Vector2(0, 0)
 
+signal game_over()
 signal level_completed()
 signal level_reset()
 
@@ -70,7 +72,9 @@ func _reset_level():
 				if x in ['X', '%']:
 					var crate = crate_prefab.instance()
 					crate.position = tile_pos
+					crate.main = get_parent()
 					crate.connect("target_updated", self, "_on_Crate_target_updated")
+					crate.connect("game_over_detected", self, "_on_Crate_game_over")
 					$LevelContainer/Crates.add_child(crate)
 				
 				if x in ['O', '%', 'A']:
@@ -85,16 +89,21 @@ func _reset_level():
 			level_size.x = max(level_size.x, col)
 			
 	file.close()
-	var new_zoom = original_zoom
+	
+	$CanvasLayer/HUD/LevelLabel.text = "Level = %s" %current_level
+
+	var new_zoom = .5
+	new_zoom = clamp(new_zoom, get_parent().min_zoom, get_parent().max_zoom)
+	new_zoom = Vector2(new_zoom, new_zoom)
 	var level_int
 	if level_size.x > level_size.y:
 		level_int = level_size.x
 	else:
 		level_int = level_size.y
 	
-	new_zoom += Vector2(level_int / 90, level_int / 90)
+	new_zoom += Vector2(level_int / 45, level_int / 45)
+	
 	$LevelContainer/Player/Camera2D.zoom = new_zoom
-	$CanvasLayer/HUD/LevelLabel.text = "Level = %s" %current_level
 
 static func delete_children(node):
 	for n in node.get_children():
@@ -114,3 +123,6 @@ func _on_Crate_target_updated():
 func _on_Player_level_reset_requested():
 	_reset_level()
 	emit_signal("level_reset")
+
+func _on_Crate_game_over():
+	emit_signal("game_over")
