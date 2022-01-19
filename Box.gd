@@ -14,13 +14,12 @@ func push(offset: Vector2) -> bool:
 	if $RayCast.is_colliding():
 		return false
 	
-	
 	$Tween.interpolate_property(
 			self,
 			"position",
 			self.position,
 			self.position + offset,
-			0.05,
+			0.35,
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT)
 	$Tween.start()

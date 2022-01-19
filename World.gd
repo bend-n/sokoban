@@ -6,6 +6,7 @@ var currentintlevel := 1
 var screenshots = 0
 var game_over = false
 var game_won = false
+var over = false
 
 const path = "user://"
 
@@ -88,3 +89,6 @@ func _on_start_load(level):
 	$StartScreen.hide()
 	$Level.show()
 	$Level/CanvasLayer/HUD.show()
+
+func _process(delta):
+	over = game_over or game_won

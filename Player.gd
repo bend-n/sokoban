@@ -14,12 +14,17 @@ onready var cam = $Camera2D
 onready var tween = $Tween
 onready var ray = $RayCast2D
 onready var dir = $Direction
+onready var anitree : AnimationTree = $AnimationTree
+onready var anistate = anitree.get("parameters/playback")
 
-func _unhandled_input(event):
+func _ready():
+	anitree.active = true
+
+func _physics_process(_delta):
 	
-	if event.is_action_pressed("level_reload"):
+	if Input.is_action_just_pressed("level_reload"):
 		emit_signal("level_reset_requested")
-		_animate(Vector2.DOWN, false)
+		anistate.travel("Idle")
 		set_moves(0)
 		last_move = null
 		last_move_crate = null
@@ -28,7 +33,8 @@ func _unhandled_input(event):
 	if not world:
 		return
 	
-	if world.game_won:
+	if world.over:
+		anistate.travel("Idle")
 		return
 	
 	if tween.is_active():
@@ -36,15 +42,9 @@ func _unhandled_input(event):
 	
 	var move_intent = Vector2.ZERO
 	
-	if event.is_action_pressed("ui_right", true):
-		move_intent = Vector2.RIGHT
-	elif event.is_action_pressed("ui_left", true):
-		move_intent = Vector2.LEFT
-	elif event.is_action_pressed("ui_up", true):
-		move_intent = Vector2.UP
-	elif event.is_action_pressed("ui_down", true):
-		move_intent = Vector2.DOWN
-	elif event.is_action_pressed("undo_last_move"):
+	move_intent = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	
+	if Input.is_action_just_pressed("undo_last_move"):
 		if last_move != null:
 			self.position -= last_move * GRID_SIZE
 			if last_move_crate != null:
@@ -54,25 +54,37 @@ func _unhandled_input(event):
 			last_move_crate = null
 		return
 	
+	if move_intent.x != 0 && move_intent.y != 0:
+		move_intent = Vector2.ZERO
+		
 	if move_intent != Vector2.ZERO:
 		
 		var offset = move_intent * GRID_SIZE
 		
 		ray.cast_to = offset
-		dir.rotation = offset.angle()
+		var new_rot = offset.angle()
+		tween.interpolate_property(
+			dir,
+			"rotation",
+			dir.rotation,
+			new_rot,
+			0.2,
+			Tween.TRANS_LINEAR,
+			Tween.EASE_IN_OUT)
+		tween.start()
 		ray.force_raycast_update()
 		
 		if ray.is_colliding():
 			var collider = ray.get_collider()
 			if collider.is_in_group('crates'):
 				if !collider.push(offset):
-					_animate(move_intent, false)
+					anistate.travel("Idle")
 					return
 				
 				last_move_crate = collider
 			
 			else:
-				_animate(move_intent, false)
+				anistate.travel("Idle")
 				return
 		
 		else:
@@ -86,17 +98,17 @@ func _unhandled_input(event):
 			"position",
 			self.position,
 			self.position + offset,
-			0.1,
+			0.35,
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT)
 		tween.start()
+		
 		SoundFx.play("walk", -10, rand_range(.9, 1.1))
-		_animate(move_intent, true)
+		anistate.travel("Run")
+		anitree.set("parameters/Run/blend_position", move_intent)
+	else:
+		anistate.travel("Idle")
 
 func set_moves(new_moves: int):
 	moves = new_moves
 	$"../../CanvasLayer/HUD/MovesLabel".text = "Moves: " + str(moves)
-
-
-func _animate(direction: Vector2, active: bool):
-	pass
