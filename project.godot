@@ -16,6 +16,11 @@ config/use_custom_user_dir=true
 config/custom_user_dir_name="sokoban"
 config/icon="res://icon.png"
 
+[autoload]
+
+Music="*res://Music.tscn"
+SoundFx="*res://SoundFX.tscn"
+
 [debug]
 
 gdscript/warnings/return_value_discarded=false

@@ -11,11 +11,15 @@ onready var cam = $LevelContainer/Player/Camera2D
 
 var current_level := ""
 
+var just_started = true setget set_just_started
+
 var level_size = Vector2(0, 0)
 
 signal game_over()
 signal level_completed()
 signal level_reset()
+
+onready var timer = $Timer
 
 func _ready():
 	$LevelContainer/Player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
@@ -24,6 +28,12 @@ func load_level(level: String):
 	$LevelContainer/Player.set_moves(0)
 	current_level = level
 	_reset_level()
+
+func set_just_started(new_start):
+	just_started = new_start
+	timer.start(.5)
+	yield($Timer, "timeout")
+	just_started = false
 
 func _reset_level():
 	delete_children($LevelContainer/Walls)
@@ -68,6 +78,7 @@ func _reset_level():
 				
 				if x in ['@', 'A']:
 					$LevelContainer/Player.position = tile_pos
+					$LevelContainer/Player.world = get_parent()
 				
 				if x in ['X', '%']:
 					var crate = crate_prefab.instance()
@@ -104,6 +115,7 @@ func _reset_level():
 	new_zoom += Vector2(level_int / 45, level_int / 45)
 	
 	$LevelContainer/Player/Camera2D.zoom = new_zoom
+	set_just_started(true)
 
 static func delete_children(node):
 	for n in node.get_children():

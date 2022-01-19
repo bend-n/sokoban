@@ -8,6 +8,7 @@ func show(integer):
 	$Container/AnimationPlayer.play("Animate")
 	$Container.visible = true
 	$Container/Label._dialogue("LEVEL %s FAILED PRESS enter TO RETRY" % integer)
+	SoundFx.play("defeat", -5)
 
 func hide(backwards = true):
 	if backwards:

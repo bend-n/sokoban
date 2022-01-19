@@ -24,6 +24,7 @@ func push(offset: Vector2) -> bool:
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT)
 	$Tween.start()
+	SoundFx.play("motion_box", -17, rand_range(.5, 1))
 	
 	return true
 
@@ -41,6 +42,13 @@ func entered_target(_target):
 	target_count += 1
 	_update_check_mark()
 	emit_signal("target_updated")
+	
+#	if not get_parent().get_parent().get_parent().just_started:
+#
+#		SoundFx.play("target")
+#		Music.lower_sound()
+#		yield(get_tree().create_timer(12), "timeout")
+#		Music.continue_playback()
 
 func left_target(_target):
 	target_count -= 1

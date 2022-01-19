@@ -5,6 +5,7 @@ export(Color) var color
 var currentintlevel := 1
 var screenshots = 0
 var game_over = false
+var game_won = false
 
 const path = "user://"
 
@@ -21,14 +22,17 @@ func _ready():
 func _on_Level_level_completed():
 	$WinScreen.show(str($Level.current_level))
 	game_over = false
+	game_won = true
 
 func _on_Level_level_reset():
 	$WinScreen.hide(true)
 	$GameoverScreen.hide(true)
 	game_over = false
+	game_won = false
 
 func _on_Level_game_over():
 	game_over = true
+	game_won = false
 	if not $GameoverScreen.shown:
 		$GameoverScreen.show(str($Level.current_level))
 
@@ -56,9 +60,11 @@ func _input(event : InputEvent):
 		if $WinScreen.shown:
 			currentintlevel += 1
 			$WinScreen.hide(true)
+			game_won = false
 			$Level.load_level(str(currentintlevel))
 		elif $GameoverScreen.shown:
 			$GameoverScreen.hide(true)
+			game_won = false
 			game_over = false
 			$Level.load_level(str(currentintlevel))
 		

@@ -8,6 +8,7 @@ var moves = 0 setget set_moves
 
 var last_move = null
 var last_move_crate = null
+var world : Node2D
 
 onready var cam = $Camera2D
 onready var tween = $Tween
@@ -15,6 +16,20 @@ onready var ray = $RayCast2D
 onready var dir = $Direction
 
 func _unhandled_input(event):
+	
+	if event.is_action_pressed("level_reload"):
+		emit_signal("level_reset_requested")
+		_animate(Vector2.DOWN, false)
+		set_moves(0)
+		last_move = null
+		last_move_crate = null
+		return
+	
+	if not world:
+		return
+	
+	if world.game_won:
+		return
 	
 	if tween.is_active():
 		return
@@ -29,13 +44,6 @@ func _unhandled_input(event):
 		move_intent = Vector2.UP
 	elif event.is_action_pressed("ui_down", true):
 		move_intent = Vector2.DOWN
-	elif event.is_action_pressed("level_reload"):
-		emit_signal("level_reset_requested")
-		_animate(Vector2.DOWN, false)
-		set_moves(0)
-		last_move = null
-		last_move_crate = null
-		return
 	elif event.is_action_pressed("undo_last_move"):
 		if last_move != null:
 			self.position -= last_move * GRID_SIZE
@@ -47,6 +55,7 @@ func _unhandled_input(event):
 		return
 	
 	if move_intent != Vector2.ZERO:
+		
 		var offset = move_intent * GRID_SIZE
 		
 		ray.cast_to = offset
@@ -81,7 +90,7 @@ func _unhandled_input(event):
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT)
 		tween.start()
-		
+		SoundFx.play("walk", -10, rand_range(.9, 1.1))
 		_animate(move_intent, true)
 
 func set_moves(new_moves: int):
@@ -91,14 +100,3 @@ func set_moves(new_moves: int):
 
 func _animate(direction: Vector2, active: bool):
 	pass
-#	if direction == Vector2.RIGHT:
-#		$AnimationPlayer.play("right")
-#	elif direction == Vector2.LEFT:
-#		$AnimationPlayer.play("left")
-#	elif direction == Vector2.UP:
-#		$AnimationPlayer.play("up")
-#	elif direction == Vector2.DOWN:
-#		$AnimationPlayer.play("down")
-#
-#	if !active:
-#		$AnimationPlayer.seek(0.05)
