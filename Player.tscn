@@ -261,10 +261,9 @@ color_ramp = SubResource( 2 )
 
 [node name="Direction" type="Sprite" parent="."]
 position = Vector2( 8, 8 )
-rotation = -1.5708
 z_index = 1
 texture = ExtResource( 3 )
-offset = Vector2( 11, 0 )
+offset = Vector2( 9.95932, -0.107321 )
 
 [node name="Tween" type="Tween" parent="."]
 

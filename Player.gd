@@ -58,22 +58,10 @@ func _physics_process(_delta):
 		move_intent = Vector2.ZERO
 		
 	if move_intent != Vector2.ZERO:
-		
 		var offset = move_intent * GRID_SIZE
 		
-		ray.cast_to = offset
-		var new_rot = offset.angle()
-		tween.interpolate_property(
-			dir,
-			"rotation",
-			dir.rotation,
-			new_rot,
-			0.2,
-			Tween.TRANS_LINEAR,
-			Tween.EASE_IN_OUT)
-		tween.start()
-		ray.force_raycast_update()
-		
+		apply_rotation(offset)
+
 		if ray.is_colliding():
 			var collider = ray.get_collider()
 			if collider.is_in_group('crates'):
@@ -112,3 +100,20 @@ func _physics_process(_delta):
 func set_moves(new_moves: int):
 	moves = new_moves
 	$"../../CanvasLayer/HUD/MovesLabel".text = "Moves: " + str(moves)
+
+func apply_rotation(offset : Vector2):
+	ray.cast_to = offset
+	var new_rot = round(rad2deg(offset.angle()))
+	ray.force_raycast_update()
+
+	tween.interpolate_property(
+		dir,
+		"rotation_degrees",
+		dir.rotation_degrees,
+		new_rot,
+		0.2,
+		Tween.TRANS_LINEAR,
+		Tween.EASE_IN_OUT)
+	tween.start()
+	
+	return offset
