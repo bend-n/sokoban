@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/motion_box.wav-738ca3888318f2d49b69099483b8cbb2.sample"
+
+[deps]
+
+source_file="res://motion_box.wav"
+dest_files=[ "res://.import/motion_box.wav-738ca3888318f2d49b69099483b8cbb2.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

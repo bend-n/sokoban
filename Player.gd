@@ -103,17 +103,19 @@ func set_moves(new_moves: int):
 
 func apply_rotation(offset : Vector2):
 	ray.cast_to = offset
-	var new_rot = round(rad2deg(offset.angle()))
+
+	var new_rot := offset.angle()
+	
 	ray.force_raycast_update()
 
+	var future_rot := lerp_angle(dir.rotation, new_rot, 1)
+	
 	tween.interpolate_property(
 		dir,
-		"rotation_degrees",
-		dir.rotation_degrees,
-		new_rot,
-		0.2,
+		"rotation",
+		dir.rotation,
+		future_rot,
+		0.3,
 		Tween.TRANS_LINEAR,
 		Tween.EASE_IN_OUT)
 	tween.start()
-	
-	return offset
