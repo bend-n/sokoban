@@ -10,6 +10,7 @@ var last_move = null
 var last_move_crate = null
 var world : Node2D
 
+
 onready var cam = $Camera2D
 onready var tween = $Tween
 onready var ray = $RayCast2D
@@ -110,12 +111,14 @@ func apply_rotation(offset : Vector2):
 
 	var future_rot := lerp_angle(dir.rotation, new_rot, 1)
 	
-	tween.interpolate_property(
-		dir,
-		"rotation",
-		dir.rotation,
-		future_rot,
-		0.3,
-		Tween.TRANS_LINEAR,
-		Tween.EASE_IN_OUT)
-	tween.start()
+	if future_rot != dir.rotation:
+		
+		tween.interpolate_property(
+			dir,
+			"rotation",
+			dir.rotation,
+			future_rot,
+			0.3,
+			Tween.TRANS_LINEAR,
+			Tween.EASE_IN_OUT)
+		tween.start()
