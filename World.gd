@@ -7,6 +7,7 @@ var screenshots = 0
 var game_over = false
 var game_won = false
 var over = false
+var just_started = true
 
 const path = "user://"
 
@@ -22,6 +23,7 @@ func _ready():
 
 func _on_Level_level_completed():
 	$WinScreen.show(str($Level.current_level))
+	get_tree().call_group("target", "play_pulse")
 	game_over = false
 	game_won = true
 
@@ -92,3 +94,7 @@ func _on_start_load(level):
 
 func _process(delta):
 	over = game_over or game_won
+
+
+func _on_Timer_timeout():
+	just_started = false

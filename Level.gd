@@ -7,6 +7,12 @@ var floor_prefab = load("res://Floor.tscn")
 var crate_prefab = load("res://Crate.tscn")
 var target_prefab = load("res://Target.tscn")
 
+onready var crates = $LevelContainer/Crates
+onready var player = $LevelContainer/Player
+onready var targets = $LevelContainer/Targets
+onready var walls = $LevelContainer/Walls
+onready var floors = $LevelContainer/Floors
+
 onready var cam = $LevelContainer/Player/Camera2D
 
 var current_level := ""
@@ -22,24 +28,24 @@ signal level_reset()
 onready var timer = $Timer
 
 func _ready():
-	$LevelContainer/Player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
+	player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
 
 func load_level(level: String):
-	$LevelContainer/Player.set_moves(0)
+	player.set_moves(0)
 	current_level = level
 	_reset_level()
 
 func set_just_started(new_start):
 	just_started = new_start
 	timer.start(.5)
-	yield($Timer, "timeout")
+	yield(timer, "timeout")
 	just_started = false
 
 func _reset_level():
-	delete_children($LevelContainer/Walls)
-	delete_children($LevelContainer/Floors)
-	delete_children($LevelContainer/Crates)
-	delete_children($LevelContainer/Targets)
+	delete_children(walls)
+	delete_children(floors)
+	delete_children(crates)
+	delete_children(targets)
 	
 	if current_level == "":
 		return
@@ -67,31 +73,15 @@ func _reset_level():
 				var tile_pos = Vector2(col, row) * GRID_SIZE
 				
 				if x == '#':
-					var wall = wall_prefab.instance()
-					wall.position = tile_pos
-					$LevelContainer/Walls.add_child(wall)
-				
+					add_wall(tile_pos)
 				if x in ['.', 'X', 'O', '@', '%', 'A']:
-					var flr = floor_prefab.instance()
-					flr.position = tile_pos
-					$LevelContainer/Floors.add_child(flr)
-				
+					add_floor(tile_pos)
 				if x in ['@', 'A']:
-					$LevelContainer/Player.position = tile_pos
-					$LevelContainer/Player.world = get_parent()
-				
+					initialize_player(tile_pos)
 				if x in ['X', '%']:
-					var crate = crate_prefab.instance()
-					crate.position = tile_pos
-					crate.main = get_parent()
-					crate.connect("target_updated", self, "_on_Crate_target_updated")
-					crate.connect("game_over_detected", self, "_on_Crate_game_over")
-					$LevelContainer/Crates.add_child(crate)
-				
+					add_crate(tile_pos)
 				if x in ['O', '%', 'A']:
-					var target = target_prefab.instance()
-					target.position = tile_pos
-					$LevelContainer/Targets.add_child(target)
+					add_target(tile_pos)
 				
 				col += 1
 				
@@ -114,7 +104,7 @@ func _reset_level():
 	
 	new_zoom += Vector2(level_int / 45, level_int / 45)
 	
-	$LevelContainer/Player/Camera2D.zoom = new_zoom
+	cam.zoom = new_zoom
 	set_just_started(true)
 
 static func delete_children(node):
@@ -125,11 +115,11 @@ static func delete_children(node):
 func _on_Crate_target_updated():
 	var crates_in_place = 0
 	
-	for crate in $LevelContainer/Crates.get_children():
+	for crate in crates.get_children():
 		if crate.target_count > 0:
 			crates_in_place += 1
 	
-	if crates_in_place == $LevelContainer/Crates.get_child_count():
+	if crates_in_place == crates.get_child_count():
 		emit_signal("level_completed")
 
 func _on_Player_level_reset_requested():
@@ -138,3 +128,31 @@ func _on_Player_level_reset_requested():
 
 func _on_Crate_game_over():
 	emit_signal("game_over")
+
+func add_target(tile_pos):
+	var target = target_prefab.instance()
+	target.main = get_parent()
+	target.position = tile_pos
+	targets.add_child(target)
+
+func add_crate(tile_pos):
+	var crate = crate_prefab.instance()
+	crate.position = tile_pos
+	crate.main = get_parent()
+	crate.connect("target_updated", self, "_on_Crate_target_updated")
+	crate.connect("game_over_detected", self, "_on_Crate_game_over")
+	crates.add_child(crate)
+
+func initialize_player(tile_pos):
+	player.position = tile_pos
+	player.world = get_parent()
+
+func add_floor(tile_pos):
+	var flr = floor_prefab.instance()
+	flr.position = tile_pos
+	floors.add_child(flr)
+
+func add_wall(tile_pos):
+	var wall = wall_prefab.instance()
+	wall.position = tile_pos
+	walls.add_child(wall)
