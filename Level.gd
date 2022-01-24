@@ -31,15 +31,13 @@ func _ready():
 	player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
 
 func load_level(level: String):
+	set_just_started(true)
 	player.set_moves(0)
 	current_level = level
 	_reset_level()
 
 func set_just_started(new_start):
 	just_started = new_start
-	timer.start(.5)
-	yield(timer, "timeout")
-	just_started = false
 
 func _reset_level():
 	delete_children(walls)
@@ -105,7 +103,9 @@ func _reset_level():
 	new_zoom += Vector2(level_int / 45, level_int / 45)
 	
 	cam.zoom = new_zoom
-	set_just_started(true)
+	timer.start(2)
+	yield(timer, "timeout")
+	set_just_started(false)
 
 static func delete_children(node):
 	for n in node.get_children():
@@ -131,7 +131,7 @@ func _on_Crate_game_over():
 
 func add_target(tile_pos):
 	var target = target_prefab.instance()
-	target.main = get_parent()
+	target.main = self
 	target.position = tile_pos
 	targets.add_child(target)
 

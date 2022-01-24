@@ -94,7 +94,3 @@ func _on_start_load(level):
 
 func _process(delta):
 	over = game_over or game_won
-
-
-func _on_Timer_timeout():
-	just_started = false
