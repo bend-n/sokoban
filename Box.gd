@@ -24,12 +24,9 @@ func push(offset: Vector2) -> bool:
 			Tween.EASE_IN_OUT)
 	$Tween.start()
 	SoundFx.play("motion_box", -17, rand_range(.5, 1))
-	
+	print(_is_stuck_in_a_corner())
+	check_over()
 	return true
-
-func _process(delta):
-	if target_count == 0 and not main.game_over and _is_stuck_in_a_corner():
-		emit_signal("game_over_detected")
 
 func _is_stuck_in_a_corner() -> bool:
 	var left_or_right_blocked = ($WallChecks/LR/Left.is_colliding() or $WallChecks/LR/Right.is_colliding())
@@ -56,3 +53,7 @@ func left_target(_target):
 
 func _update_check_mark():
 	$CheckSprite.visible = target_count > 0
+
+func check_over():
+	if target_count == 0 and not main.game_over and _is_stuck_in_a_corner():
+		emit_signal("game_over_detected")

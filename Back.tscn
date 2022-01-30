@@ -3,7 +3,7 @@
 [node name="Back" type="ColorRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 1, 0.796078, 0, 1 )
+color = Color( 0.333333, 0.490196, 0.333333, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

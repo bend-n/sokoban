@@ -4,8 +4,8 @@ export(Color) var color
 
 var currentintlevel := 1
 var screenshots = 0
-var game_over = false
-var game_won = false
+var game_over = false setget set_over
+var game_won = false setget set_won
 var over = false
 var just_started = true
 
@@ -38,7 +38,6 @@ func _on_Level_game_over():
 	game_won = false
 	if not $GameoverScreen.shown:
 		$GameoverScreen.show(str($Level.current_level))
-
 
 onready var cam = $Level/LevelContainer/Player.cam
 
@@ -94,3 +93,11 @@ func _on_start_load(level):
 
 func _process(delta):
 	over = game_over or game_won
+
+func set_won(value):
+	game_won = value
+
+func set_over(value):
+	game_over = value
+	over = game_over or game_won
+

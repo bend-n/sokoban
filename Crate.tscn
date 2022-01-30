@@ -39,6 +39,7 @@ position = Vector2( 8, 8 )
 occluder = SubResource( 2 )
 
 [node name="WallChecks" type="Node2D" parent="."]
+visible = false
 
 [node name="LR" type="Node2D" parent="WallChecks"]
 
