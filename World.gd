@@ -60,6 +60,7 @@ func _input(event : InputEvent):
 	
 	elif event.is_action_released("next"):
 		currentintlevel += 1
+		currentintlevel = clamp(currentintlevel, 1, 60)
 		_on_start_start()
 	
 	if event.is_action_released("ui_accept"):

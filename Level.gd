@@ -3,6 +3,8 @@ extends Node2D
 const GRID_SIZE = 16
 const grassDecorationIds = [0, 1, 2, 3, 4, 5, 6, 7]
 const treeDecorationIds = [8, 9, 10, 11]
+const stoneDecorationIds = [12, 13, 14, 15, 16]
+const mushroomDecorationIds = [17, 18, 19, 20, 21, 22, 23, 24]
 
 var thread : Thread
 var crate_prefab = preload("res://Crate.tscn")
@@ -96,12 +98,9 @@ func _reset_level():
 			
 	file.close()
 
-	for x in range(-50, 50):
-		for y in range(-50, 50):
-			if check_for_empty_tile(Vector2(x, y), tilemaps):
-				if randi() % 11 == 5:
-					others.set_cell(x, y, treeDecorationIds[randi() % treeDecorationIds.size()])
-	
+	add_trees(-75, 75)
+	add_rock(-75, 75)
+	add_mushroom(-75, 75)
 	$CanvasLayer/HUD/LevelLabel.text = "Level = %s" %current_level
 
 	var new_zoom = .5
@@ -161,9 +160,6 @@ func initialize_player(tile_pos):
 	player.world = get_parent()
 
 func add_floor(tile_pos):
-#	var flr = floor_prefab.instance()
-#	flr.position = tile_pos
-#	floors.add_child(flr)
 	floors.set_cellv(tile_pos / 16, 0)
 	randomize()
 	if randi() % 5 == 2:
@@ -179,12 +175,37 @@ func check_for_empty_tile(tile_pos : Vector2, tilemaps : Array) -> bool:
 		var left_tile_pos = tile_pos
 		var right_tile_pos = tile_pos
 		var up_tile_pos = tile_pos
+		var down_right_tile_pos = tile_pos
+		var down_left_tile_pos = tile_pos
+		down_right_tile_pos += Vector2.DOWN + Vector2.RIGHT
+		down_left_tile_pos += Vector2.DOWN + Vector2.LEFT
 		lower_tile_pos += Vector2.DOWN
 		left_tile_pos += Vector2.LEFT
 		right_tile_pos += Vector2.RIGHT
 		up_tile_pos += Vector2.UP
-		var tile_positions = [lower_tile_pos, left_tile_pos, right_tile_pos, up_tile_pos, tile_pos]
+		var tile_positions = [down_left_tile_pos, down_right_tile_pos, lower_tile_pos, left_tile_pos, right_tile_pos, up_tile_pos, tile_pos]
 		for tile in tile_positions:
 			if tilemap.get_cellv(tile) != -1:
 				return false
 	return true
+
+func add_trees(size1, size2):
+	for x in range(size1, size2):
+			for y in range(size1, size2):
+				if check_for_empty_tile(Vector2(x, y), tilemaps):
+					if randi() % 100 == 5:
+						others.set_cell(x, y, treeDecorationIds[randi() % treeDecorationIds.size()])
+
+func add_rock(size1, size2):
+	for x in range(size1, size2):
+			for y in range(size1, size2):
+				if check_for_empty_tile(Vector2(x, y), tilemaps):
+					if randi() % 75 == 5:
+						others.set_cell(x, y, stoneDecorationIds[randi() % stoneDecorationIds.size()])
+
+func add_mushroom(size1, size2):
+	for x in range(size1, size2):
+			for y in range(size1, size2):
+				if check_for_empty_tile(Vector2(x, y), tilemaps):
+					if randi() % 75 == 5:
+						others.set_cell(x, y, mushroomDecorationIds[randi() % mushroomDecorationIds.size()])
