@@ -4,6 +4,7 @@ const GRID_SIZE = 16
 const grassDecorationIds = [0, 1, 2, 3, 4, 5, 6, 7]
 const treeDecorationIds = [8, 9, 10, 11]
 
+var thread : Thread
 var crate_prefab = preload("res://Crate.tscn")
 var target_prefab = preload("res://Target.tscn")
 
@@ -28,18 +29,26 @@ signal level_reset()
 
 func _ready():
 	player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
+	thread = Thread.new()
 
 func load_level(level: String):
+	thread.start(self, "level_load", level)
+
+func level_load(level : String):
 	set_just_started(true)
 	player.set_moves(0)
 	current_level = level
 	_reset_level()
+
+func _exit_tree():
+	thread.wait_to_finish()
 
 func set_just_started(new_start):
 	just_started = new_start
 
 func _reset_level():
 	walls.clear()
+	others.clear()
 	delete_children(floors)
 	delete_children(crates)
 	delete_children(targets)

@@ -58,6 +58,10 @@ func _input(event : InputEvent):
 		new_zoom = clamp(new_zoom, min_zoom, max_zoom)
 		cam.zoom = Vector2(new_zoom, new_zoom)
 	
+	elif event.is_action_released("next"):
+		currentintlevel += 1
+		_on_start_start()
+	
 	if event.is_action_released("ui_accept"):
 		if $WinScreen.shown:
 			currentintlevel += 1

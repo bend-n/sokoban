@@ -24,8 +24,6 @@ func push(offset: Vector2) -> bool:
 			Tween.EASE_IN_OUT)
 	$Tween.start()
 	SoundFx.play("motion_box", -17, rand_range(.5, 1))
-	print(_is_stuck_in_a_corner())
-	check_over()
 	return true
 
 func _is_stuck_in_a_corner() -> bool:
@@ -57,3 +55,6 @@ func _update_check_mark():
 func check_over():
 	if target_count == 0 and not main.game_over and _is_stuck_in_a_corner():
 		emit_signal("game_over_detected")
+
+func _on_Tween_tween_all_completed():
+	check_over()

@@ -14,7 +14,10 @@ config/name="sokoban"
 run/main_scene="res://World.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="sokoban"
+boot_splash/image="res://sokobanner.png"
+boot_splash/use_filter=false
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
@@ -30,6 +33,7 @@ gdscript/warnings/return_value_discarded=false
 
 window/size/width=320
 window/size/height=320
+window/size/fullscreen=true
 window/size/test_width=720
 window/size/test_height=720
 window/stretch/mode="2d"
@@ -139,6 +143,11 @@ scrolldown={
 pause={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+next={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":92,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 
