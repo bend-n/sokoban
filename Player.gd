@@ -9,7 +9,7 @@ var moves = 0 setget set_moves
 var last_move = null
 var last_move_crate = null
 var world : Node2D
-
+var count = 0
 
 onready var cam = $Camera2D
 onready var tween = $Tween
@@ -20,6 +20,16 @@ onready var anistate = anitree.get("parameters/playback")
 
 func _ready():
 	anitree.active = true
+
+func initialize():
+	set_physics_process(false)
+	yield(get_tree().create_timer(2),"timeout")
+	set_physics_process(true)
+
+func _input(event):
+	if get_parent().get_parent().just_started:
+		return
+	get_parent().get_parent().start_stopwatch()
 
 func _physics_process(_delta):
 	

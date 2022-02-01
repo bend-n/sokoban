@@ -2,7 +2,7 @@ extends Node2D
 
 export(Color) var color
 
-var currentintlevel := 1
+var currentintlevel :int = 1
 var screenshots = 0
 var game_over = false setget set_over
 var game_won = false setget set_won
@@ -45,7 +45,7 @@ var max_zoom = 3
 var min_zoom = .25
 
 func _input(event : InputEvent):
-
+	
 	if event.is_action("scrollup"):
 		var new_zoom = cam.zoom.x
 		new_zoom += .01
@@ -69,6 +69,7 @@ func _input(event : InputEvent):
 			$WinScreen.hide(true)
 			game_won = false
 			$Level.load_level(str(currentintlevel))
+		
 		elif $GameoverScreen.shown:
 			$GameoverScreen.hide(true)
 			game_won = false
@@ -96,7 +97,7 @@ func _on_start_load(level):
 	$Level.show()
 	$Level/CanvasLayer/HUD.show()
 
-func _process(delta):
+func _process(_delta):
 	over = game_over or game_won
 
 func set_won(value):

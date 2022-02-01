@@ -21,7 +21,7 @@ onready var cam = $LevelContainer/Player/Camera2D
 
 var current_level := ""
 onready var tilemaps = [walls, others, floors]
-var just_started = true setget set_just_started
+var just_started = true
 
 var level_size = Vector2(0, 0)
 
@@ -32,25 +32,41 @@ signal level_reset()
 func _ready():
 	player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
 	thread = Thread.new()
+	reset_time()
 
-func load_level(level: String):
-	thread.start(self, "level_load", level)
+func reset_time():
+	$CanvasLayer/HUD/StopWatch.time_elapsed = 0.0
+	$CanvasLayer/HUD/StopWatch.set_process(false)
+	print("attempting to reset, remaining time: %s" % $CanvasLayer/HUD/StopWatch.time_elapsed)
+	return true
 
-func level_load(level : String):
-	set_just_started(true)
+func start_stopwatch():
+	$CanvasLayer/HUD/StopWatch.set_process(true)
+
+func load_level(level: String, decorate = true):
+	print("thread alive? ", thread.is_alive(), " | thread active? ", thread.is_active())
+	if thread.is_alive():
+		return
+	if thread.is_active():
+		thread.wait_to_finish()
+	print(reset_time())
+	print("attempting to load level %s" % level)
+	thread.start(self, "level_load", [level, decorate])
+
+func level_load(level : Array):
+	print("loading level %s" % level[0])
+	just_started = true
 	player.set_moves(0)
-	current_level = level
-	_reset_level()
+	current_level = level[0]
+	call_deferred("_reset_level", level[1])
 
 func _exit_tree():
 	thread.wait_to_finish()
 
-func set_just_started(new_start):
-	just_started = new_start
-
-func _reset_level():
+func _reset_level(decorate):
 	walls.clear()
-	others.clear()
+	if decorate:
+		others.clear()
 	delete_children(floors)
 	delete_children(crates)
 	delete_children(targets)
@@ -86,6 +102,7 @@ func _reset_level():
 					add_floor(tile_pos)
 				if x in ['@', 'A']:
 					initialize_player(tile_pos)
+					player.initialize()
 				if x in ['X', '%']:
 					add_crate(tile_pos)
 				if x in ['O', '%', 'A']:
@@ -98,9 +115,6 @@ func _reset_level():
 			
 	file.close()
 
-	add_trees(-75, 75)
-	add_rock(-75, 75)
-	add_mushroom(-75, 75)
 	$CanvasLayer/HUD/LevelLabel.text = "Level = %s" %current_level
 
 	var new_zoom = .5
@@ -113,16 +127,32 @@ func _reset_level():
 		level_int = level_size.y
 	
 	new_zoom += Vector2(level_int / 45, level_int / 45)
-	
-	cam.zoom = new_zoom
+	$Tween.interpolate_property(
+		cam,
+		"zoom",
+		cam.zoom,
+		new_zoom,
+		2,
+		Tween.TRANS_LINEAR,
+		Tween.EASE_IN_OUT
+	)
+	$Tween.start()
 	timer.start(2)
+	if decorate:
+		decorate(-75, 75)
 	yield(timer, "timeout")
-	set_just_started(false)
+	just_started = false
+	return
 
 static func delete_children(node):
 	for n in node.get_children():
 		node.remove_child(n)
 		n.queue_free()
+
+func decorate(x, y):
+	add_trees(x, y)
+	add_rock(x, y)
+	add_mushroom(x, y)
 
 func _on_Crate_target_updated():
 	var crates_in_place = 0
@@ -135,7 +165,7 @@ func _on_Crate_target_updated():
 		emit_signal("level_completed")
 
 func _on_Player_level_reset_requested():
-	_reset_level()
+	load_level(current_level, false)
 	emit_signal("level_reset")
 
 func _on_Crate_game_over():
@@ -169,7 +199,7 @@ func add_wall(tile_pos):
 	walls.set_cellv(tile_pos / 16, 1)
 	walls.update_bitmask_area(tile_pos / 16)
 
-func check_for_empty_tile(tile_pos : Vector2, tilemaps : Array) -> bool:
+func check_for_empty_tile(tile_pos : Vector2) -> bool:
 	for tilemap in tilemaps:
 		var lower_tile_pos = tile_pos
 		var left_tile_pos = tile_pos
@@ -192,20 +222,20 @@ func check_for_empty_tile(tile_pos : Vector2, tilemaps : Array) -> bool:
 func add_trees(size1, size2):
 	for x in range(size1, size2):
 			for y in range(size1, size2):
-				if check_for_empty_tile(Vector2(x, y), tilemaps):
+				if check_for_empty_tile(Vector2(x, y)):
 					if randi() % 100 == 5:
 						others.set_cell(x, y, treeDecorationIds[randi() % treeDecorationIds.size()])
 
 func add_rock(size1, size2):
 	for x in range(size1, size2):
 			for y in range(size1, size2):
-				if check_for_empty_tile(Vector2(x, y), tilemaps):
+				if check_for_empty_tile(Vector2(x, y)):
 					if randi() % 75 == 5:
 						others.set_cell(x, y, stoneDecorationIds[randi() % stoneDecorationIds.size()])
 
 func add_mushroom(size1, size2):
 	for x in range(size1, size2):
 			for y in range(size1, size2):
-				if check_for_empty_tile(Vector2(x, y), tilemaps):
+				if check_for_empty_tile(Vector2(x, y)):
 					if randi() % 75 == 5:
 						others.set_cell(x, y, mushroomDecorationIds[randi() % mushroomDecorationIds.size()])
