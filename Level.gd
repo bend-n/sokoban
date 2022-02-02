@@ -98,6 +98,10 @@ func _reset_level(decorate):
 				
 				if x == '#':
 					add_wall(tile_pos)
+				if x == '`':
+					add_wall(tile_pos)
+					# this wall will open up.
+					# in the distant, distant future
 				if x in ['.', 'X', 'O', '@', '%', 'A']:
 					add_floor(tile_pos)
 				if x in ['@', 'A']:

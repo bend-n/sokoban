@@ -29,7 +29,8 @@ func initialize():
 func _input(event):
 	if get_parent().get_parent().just_started:
 		return
-	get_parent().get_parent().start_stopwatch()
+	if event is InputEventKey:
+		get_parent().get_parent().start_stopwatch()
 
 func _physics_process(_delta):
 	

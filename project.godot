@@ -14,8 +14,9 @@ config/name="sokoban"
 run/main_scene="res://World.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="sokoban"
-boot_splash/image="res://sokobanner.png"
+boot_splash/image="res://icon.png"
 boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0.141176, 0.141176, 0.141176, 0 )
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 
