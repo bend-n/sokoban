@@ -78,7 +78,7 @@ func _input(event : InputEvent):
 			$GameoverScreen.hide(true)
 			game_won = false
 			game_over = false
-			$Level.load_level(str(currentintlevel))
+			$Level.load_level(str(currentintlevel), false)
 		
 	elif event.is_action_released("prtscrn"):
 		screenshots += 1

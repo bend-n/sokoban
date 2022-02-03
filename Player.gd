@@ -10,6 +10,7 @@ var last_move = null
 var last_move_crate = null
 var world : Node2D
 var count = 0
+var started = false
 
 signal won
 
@@ -27,12 +28,6 @@ func initialize():
 	set_physics_process(false)
 	yield(get_tree().create_timer(2),"timeout")
 	set_physics_process(true)
-
-func _input(event):
-	if get_parent().get_parent().just_started:
-		return
-	if event is InputEventKey:
-		get_parent().get_parent().start_stopwatch()
 
 func _physics_process(_delta):
 	
@@ -72,6 +67,9 @@ func _physics_process(_delta):
 		move_intent = Vector2.ZERO
 		
 	if move_intent != Vector2.ZERO:
+		if not started:
+			get_parent().get_parent().start_stopwatch()
+			started = true
 		var offset = move_intent * GRID_SIZE
 		
 		apply_rotation(offset)

@@ -40,12 +40,14 @@ func reset_time():
 	$CanvasLayer/HUD/StopWatch.time_elapsed = 0.0
 	$CanvasLayer/HUD/StopWatch.set_process(false)
 	print_debug("attempting to reset, remaining time: %s" % $CanvasLayer/HUD/StopWatch.time_elapsed)
+	player.started = false
 	return true
 
 func start_stopwatch():
 	$CanvasLayer/HUD/StopWatch.set_process(true)
 
 func load_level(level: String, decorate = true):
+	$LevelContainer/Walls.modulate = Color.white
 	print_debug("thread alive? ", thread.is_alive(), " | thread active? ", thread.is_active())
 	if thread.is_alive():
 		return
