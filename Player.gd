@@ -1,4 +1,4 @@
-extends Node2D
+extends CollisionObject2D
 
 signal level_reset_requested()
 
@@ -10,6 +10,8 @@ var last_move = null
 var last_move_crate = null
 var world : Node2D
 var count = 0
+
+signal won
 
 onready var cam = $Camera2D
 onready var tween = $Tween
@@ -133,3 +135,9 @@ func apply_rotation(offset : Vector2):
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT)
 		tween.start()
+
+
+func _on_Player_body_exited(body):
+	if not body.name == "Player" and not body.is_in_group("crates"):
+		print_debug(body.name)
+		emit_signal("won")

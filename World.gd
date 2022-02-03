@@ -21,11 +21,15 @@ func _ready():
 	$StartScreen.connect("start", self, "_on_start_start")
 	$StartScreen.connect("load_level", self, "_on_start_load")
 
-func _on_Level_level_completed():
-	$WinScreen.show(str($Level.current_level))
+func _on_Level_level_completed(complete = false):
+	$Level/CanvasLayer/HUD/StopWatch.set_process(false)
+	if complete:
+		$WinScreen.show(str($Level.current_level))
+		game_over = false
+		game_won = true
+	else:
+		$Level/LevelContainer/LevelComplete.play("Animate")
 	get_tree().call_group("target", "play_pulse")
-	game_over = false
-	game_won = true
 
 func _on_Level_level_reset():
 	$WinScreen.hide(true)

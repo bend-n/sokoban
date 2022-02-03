@@ -28,7 +28,7 @@ var just_started = true
 var level_size = Vector2(0, 0)
 
 signal game_over()
-signal level_completed()
+signal level_completed(completed)
 signal level_reset()
 
 func _ready():
@@ -63,7 +63,8 @@ func level_load(level : Array):
 	call_deferred("_reset_level", level[1])
 
 func _exit_tree():
-	thread.wait_to_finish()
+	if thread.is_active():
+		thread.wait_to_finish()
 
 func _reset_level(decorate):
 	walls.clear()
@@ -145,7 +146,6 @@ func _reset_level(decorate):
 #	print(check_for_empty_tile(Vector2(-75, 75)))
 	yield(timer, "timeout")
 	just_started = false
-	add_areas()
 	return
 
 static func delete_children(node):
@@ -203,7 +203,6 @@ func add_wall(tile_pos):
 	wall_positions.append(tile_pos)
 	walls.set_cellv(tile_pos / 16, 1)
 	walls.update_bitmask_area(tile_pos / 16)
-
 
 func check_for_empty_tile(size : Vector2 = Vector2(-75, 75)):
 	var empty_tiles :PoolVector2Array = []
@@ -266,7 +265,5 @@ func explode_walls():
 	for positions in wall_positions:
 		Utils.instance_scene_on_main(positions, explosionEffect)
 
-func add_areas():
-	for x in level_size.x:
-		for y in level_size.y:
-			pass
+func _on_Player_won():
+	emit_signal("level_completed", true)
