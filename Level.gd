@@ -48,6 +48,7 @@ func start_stopwatch():
 
 func load_level(level: String, decorate = true):
 	$LevelContainer/Walls.modulate = Color.white
+	$LevelContainer/Player/RayCast2D.set_collision_mask_bit(0, true)
 	print_debug("thread alive? ", thread.is_alive(), " | thread active? ", thread.is_active())
 	if thread.is_alive():
 		return
