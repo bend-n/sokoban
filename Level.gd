@@ -5,8 +5,10 @@ const grassDecorationIds = [0, 1, 2, 3, 4, 5, 6, 7]
 const treeDecorationIds = [8, 9, 10, 11]
 const stoneDecorationIds = [12, 13, 14, 15, 16]
 const mushroomDecorationIds = [17, 18, 19, 20, 21, 22, 23, 24]
+var explosionEffect = preload("res://ExplosionEffect.tscn")
 
 var thread : Thread
+var wall_positions :PoolVector2Array = []
 var crate_prefab = preload("res://Crate.tscn")
 var target_prefab = preload("res://Target.tscn")
 
@@ -37,24 +39,24 @@ func _ready():
 func reset_time():
 	$CanvasLayer/HUD/StopWatch.time_elapsed = 0.0
 	$CanvasLayer/HUD/StopWatch.set_process(false)
-	print("attempting to reset, remaining time: %s" % $CanvasLayer/HUD/StopWatch.time_elapsed)
+	print_debug("attempting to reset, remaining time: %s" % $CanvasLayer/HUD/StopWatch.time_elapsed)
 	return true
 
 func start_stopwatch():
 	$CanvasLayer/HUD/StopWatch.set_process(true)
 
 func load_level(level: String, decorate = true):
-	print("thread alive? ", thread.is_alive(), " | thread active? ", thread.is_active())
+	print_debug("thread alive? ", thread.is_alive(), " | thread active? ", thread.is_active())
 	if thread.is_alive():
 		return
 	if thread.is_active():
 		thread.wait_to_finish()
-	print(reset_time())
-	print("attempting to load level %s" % level)
+	print_debug(reset_time())
+	print_debug("attempting to load level %s" % level)
 	thread.start(self, "level_load", [level, decorate])
 
 func level_load(level : Array):
-	print("loading level %s" % level[0])
+	print_debug("loading level %s" % level[0])
 	just_started = true
 	player.set_moves(0)
 	current_level = level[0]
@@ -98,10 +100,6 @@ func _reset_level(decorate):
 				
 				if x == '#':
 					add_wall(tile_pos)
-				if x == '`':
-					add_wall(tile_pos)
-					# this wall will open up.
-					# in the distant, distant future
 				if x in ['.', 'X', 'O', '@', '%', 'A']:
 					add_floor(tile_pos)
 				if x in ['@', 'A']:
@@ -144,8 +142,10 @@ func _reset_level(decorate):
 	timer.start(2)
 	if decorate:
 		decorate(-75, 75)
+#	print(check_for_empty_tile(Vector2(-75, 75)))
 	yield(timer, "timeout")
 	just_started = false
+	add_areas()
 	return
 
 static func delete_children(node):
@@ -200,46 +200,73 @@ func add_floor(tile_pos):
 		others.set_cellv(tile_pos / 16, grassDecorationIds[randi() % grassDecorationIds.size()])
 
 func add_wall(tile_pos):
+	wall_positions.append(tile_pos)
 	walls.set_cellv(tile_pos / 16, 1)
 	walls.update_bitmask_area(tile_pos / 16)
 
-func check_for_empty_tile(tile_pos : Vector2) -> bool:
-	for tilemap in tilemaps:
-		var lower_tile_pos = tile_pos
-		var left_tile_pos = tile_pos
-		var right_tile_pos = tile_pos
-		var up_tile_pos = tile_pos
-		var down_right_tile_pos = tile_pos
-		var down_left_tile_pos = tile_pos
-		down_right_tile_pos += Vector2.DOWN + Vector2.RIGHT
-		down_left_tile_pos += Vector2.DOWN + Vector2.LEFT
-		lower_tile_pos += Vector2.DOWN
-		left_tile_pos += Vector2.LEFT
-		right_tile_pos += Vector2.RIGHT
-		up_tile_pos += Vector2.UP
-		var tile_positions = [down_left_tile_pos, down_right_tile_pos, lower_tile_pos, left_tile_pos, right_tile_pos, up_tile_pos, tile_pos]
-		for tile in tile_positions:
-			if tilemap.get_cellv(tile) != -1:
-				return false
-	return true
+
+func check_for_empty_tile(size : Vector2 = Vector2(-75, 75)):
+	var empty_tiles :PoolVector2Array = []
+	for x in range(size.x, size.y):
+		for y in range(size.x, size.y):
+			var tile_pos = Vector2(x, y)
+			var lower_tile_pos = tile_pos
+			var left_tile_pos = tile_pos
+			var right_tile_pos = tile_pos
+			var up_tile_pos = tile_pos
+			var down_right_tile_pos = tile_pos
+			var down_left_tile_pos = tile_pos
+			down_right_tile_pos += Vector2.DOWN + Vector2.RIGHT
+			down_left_tile_pos += Vector2.DOWN + Vector2.LEFT
+			lower_tile_pos += Vector2.DOWN
+			left_tile_pos += Vector2.LEFT
+			right_tile_pos += Vector2.RIGHT
+			up_tile_pos += Vector2.UP
+			var tile_positions = [down_left_tile_pos, down_right_tile_pos, lower_tile_pos, left_tile_pos, right_tile_pos, up_tile_pos, tile_pos]
+			var count2 := 0
+			for tile in tile_positions:
+				var count := 0
+				for tilemap in tilemaps:
+					if empty(tilemap, tile):
+						count += 1
+						if count == tilemaps.size():
+							count2 += 1
+							if count2 == tile_positions.size():
+								empty_tiles.append(tile_pos)
+	return empty_tiles
+
+func empty(tilemap, tile) -> bool: 
+	if tilemap.get_cellv(tile) != -1: 
+		return false
+	else:
+		return true
 
 func add_trees(size1, size2):
-	for x in range(size1, size2):
-			for y in range(size1, size2):
-				if check_for_empty_tile(Vector2(x, y)):
-					if randi() % 100 == 5:
-						others.set_cell(x, y, treeDecorationIds[randi() % treeDecorationIds.size()])
+	var empty_tiles = check_for_empty_tile(Vector2(size1, size2))
+	if empty_tiles.size() > 0:
+		for empty_tile in empty_tiles:
+			if randi() % 75 == 5:
+				others.set_cellv(empty_tile, stoneDecorationIds[randi() % stoneDecorationIds.size()])
 
 func add_rock(size1, size2):
-	for x in range(size1, size2):
-			for y in range(size1, size2):
-				if check_for_empty_tile(Vector2(x, y)):
-					if randi() % 75 == 5:
-						others.set_cell(x, y, stoneDecorationIds[randi() % stoneDecorationIds.size()])
+	var empty_tiles = check_for_empty_tile(Vector2(size1, size2))
+	if empty_tiles.size() > 0:
+		for empty_tile in empty_tiles:
+			if randi() % 75 == 5:
+				others.set_cellv(empty_tile, stoneDecorationIds[randi() % stoneDecorationIds.size()])
 
 func add_mushroom(size1, size2):
-	for x in range(size1, size2):
-			for y in range(size1, size2):
-				if check_for_empty_tile(Vector2(x, y)):
-					if randi() % 75 == 5:
-						others.set_cell(x, y, mushroomDecorationIds[randi() % mushroomDecorationIds.size()])
+	var empty_tiles = check_for_empty_tile(Vector2(size1, size2))
+	if empty_tiles.size() > 0:
+		for empty_tile in empty_tiles:
+			if randi() % 75 == 5:
+				others.set_cellv(empty_tile, mushroomDecorationIds[randi() % mushroomDecorationIds.size()])
+
+func explode_walls():
+	for positions in wall_positions:
+		Utils.instance_scene_on_main(positions, explosionEffect)
+
+func add_areas():
+	for x in level_size.x:
+		for y in level_size.y:
+			pass

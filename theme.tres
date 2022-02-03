@@ -1,0 +1,30 @@
+[gd_resource type="Theme" load_steps=8 format=2]
+
+[ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=1]
+[ext_resource path="res://transparency.png" type="Texture" id=2]
+[ext_resource path="res://ButtonHoverStylebox.tres" type="StyleBox" id=3]
+[ext_resource path="res://ButtonStylebox.tres" type="StyleBox" id=4]
+[ext_resource path="res://font.tres" type="DynamicFont" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="DynamicFont" id=3]
+size = 14
+extra_spacing_top = 3
+extra_spacing_char = 1
+font_data = ExtResource( 1 )
+
+[resource]
+default_font = ExtResource( 5 )
+Button/colors/font_color = Color( 1, 1, 1, 1 )
+Button/colors/font_color_focus = Color( 0, 0, 0, 1 )
+Button/colors/font_color_hover = Color( 0, 0, 0, 1 )
+Button/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+Button/styles/disabled = SubResource( 1 )
+Button/styles/focus = ExtResource( 3 )
+Button/styles/hover = ExtResource( 3 )
+Button/styles/normal = ExtResource( 4 )
+Button/styles/pressed = ExtResource( 3 )
+LineEdit/fonts/font = SubResource( 3 )
+LineEdit/styles/normal = ExtResource( 4 )
+SpinBox/icons/updown = ExtResource( 2 )

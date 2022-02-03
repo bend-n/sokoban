@@ -24,6 +24,7 @@ config/windows_native_icon="res://icon.ico"
 
 Music="*res://Music.tscn"
 SoundFx="*res://SoundFX.tscn"
+Utils="*res://Utils.gd"
 
 [debug]
 

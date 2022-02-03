@@ -28,4 +28,4 @@ func play(sound_string, volume_db = 0, pitch_scale = randf() + 0.4):
 			soundPlayer.stream = sounds[sound_string]
 			soundPlayer.play()
 			return
-	print("TOO MANY SOUNDS")
+	print_debug("TOO MANY SOUNDS")

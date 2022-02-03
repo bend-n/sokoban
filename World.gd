@@ -79,7 +79,7 @@ func _input(event : InputEvent):
 	elif event.is_action_released("prtscrn"):
 		screenshots += 1
 		screenshots = clamp(screenshots, 0, 20)
-		print("SCREENSHOT " + str(screenshots))
+		print_debug("SCREENSHOT " + str(screenshots))
 		var image = get_viewport().get_texture().get_data()
 		image.flip_y()
 		image.save_png(path + "sokobanscreenshot_%s.png" % str(screenshots))
