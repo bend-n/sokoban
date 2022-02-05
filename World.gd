@@ -75,7 +75,7 @@ func _input(event : InputEvent):
 			$Level.load_level(str(currentintlevel))
 		
 		elif $GameoverScreen.shown:
-			$GameoverScreen.hide(true)
+			$GameoverScreen.hide(true) 
 			game_won = false
 			game_over = false
 			$Level.load_level(str(currentintlevel), false)

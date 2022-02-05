@@ -91,7 +91,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=20]
 resource_name = "MoveRight"
 length = 0.35
 loop = true
@@ -150,7 +150,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=21]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -177,10 +177,10 @@ tracks/1/keys = {
 "values": [ -90.0 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=20]
+[sub_resource type="AnimationNodeAnimation" id=24]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=21]
+[sub_resource type="AnimationNodeAnimation" id=25]
 animation = "Idle"
 
 [sub_resource type="AnimationNodeAnimation" id=22]
@@ -190,9 +190,9 @@ animation = "Idle"
 animation = "Idle"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id=9]
-blend_point_0/node = SubResource( 20 )
+blend_point_0/node = SubResource( 24 )
 blend_point_0/pos = Vector2( -0.1, 0 )
-blend_point_1/node = SubResource( 21 )
+blend_point_1/node = SubResource( 25 )
 blend_point_1/pos = Vector2( 0, 0.6 )
 blend_point_2/node = SubResource( 22 )
 blend_point_2/pos = Vector2( 0.1, 0 )
@@ -297,9 +297,9 @@ smoothing_speed = 4.0
 anims/Idle = SubResource( 19 )
 anims/MoveDown = SubResource( 8 )
 anims/MoveLeft = SubResource( 6 )
-anims/MoveRight = SubResource( 4 )
+anims/MoveRight = SubResource( 20 )
 anims/MoveUp = SubResource( 7 )
-anims/RESET = SubResource( 5 )
+anims/RESET = SubResource( 21 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 13 )

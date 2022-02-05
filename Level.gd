@@ -70,6 +70,7 @@ func _exit_tree():
 		thread.wait_to_finish()
 
 func _reset_level(decorate):
+	player.initialize()
 	walls.clear()
 	if decorate:
 		others.clear()
@@ -85,6 +86,7 @@ func _reset_level(decorate):
 	
 	var version = 0
 	var row = 0
+	var player_pos
 	level_size = Vector2(0, 0)
 	
 	while !file.eof_reached():
@@ -107,8 +109,7 @@ func _reset_level(decorate):
 				if x in ['.', 'X', 'O', '@', '%', 'A']:
 					add_floor(tile_pos)
 				if x in ['@', 'A']:
-					initialize_player(tile_pos)
-					player.initialize()
+					player_pos = tile_pos
 				if x in ['X', '%']:
 					add_crate(tile_pos)
 				if x in ['O', '%', 'A']:
@@ -145,7 +146,8 @@ func _reset_level(decorate):
 	$Tween.start()
 	timer.start(2)
 	if decorate:
-		decorate(-75, 75)
+		decorate(-50, 50)
+	initialize_player(player_pos)
 #	print(check_for_empty_tile(Vector2(-75, 75)))
 	yield(timer, "timeout")
 	just_started = false
@@ -157,9 +159,14 @@ static func delete_children(node):
 		n.queue_free()
 
 func decorate(x, y):
-	add_trees(x, y)
-	add_rock(x, y)
-	add_mushroom(x, y)
+	for tile in check_for_empty_tile(Vector2(x, y)):
+		match randi() % 101:
+			1:
+				add_mushroom(tile)
+			2:
+				add_rock(tile)
+			3:
+				add_tree(tile)
 
 func _on_Crate_target_updated():
 	var crates_in_place = 0
@@ -172,6 +179,8 @@ func _on_Crate_target_updated():
 		emit_signal("level_completed")
 
 func _on_Player_level_reset_requested():
+	if player.tween.is_active():
+		yield(player.tween, "tween_all_completed")
 	load_level(current_level, false)
 	emit_signal("level_reset")
 
@@ -240,29 +249,16 @@ func check_for_empty_tile(size : Vector2 = Vector2(-75, 75)):
 func empty(tilemap, tile) -> bool: 
 	if tilemap.get_cellv(tile) != -1: 
 		return false
-	else:
-		return true
+	return true
 
-func add_trees(size1, size2):
-	var empty_tiles = check_for_empty_tile(Vector2(size1, size2))
-	if empty_tiles.size() > 0:
-		for empty_tile in empty_tiles:
-			if randi() % 75 == 5:
-				others.set_cellv(empty_tile, stoneDecorationIds[randi() % stoneDecorationIds.size()])
+func add_tree(tile):
+	others.set_cellv(tile, treeDecorationIds[randi() % treeDecorationIds.size()])
 
-func add_rock(size1, size2):
-	var empty_tiles = check_for_empty_tile(Vector2(size1, size2))
-	if empty_tiles.size() > 0:
-		for empty_tile in empty_tiles:
-			if randi() % 75 == 5:
-				others.set_cellv(empty_tile, stoneDecorationIds[randi() % stoneDecorationIds.size()])
+func add_rock(tile):
+	others.set_cellv(tile, stoneDecorationIds[randi() % stoneDecorationIds.size()])
 
-func add_mushroom(size1, size2):
-	var empty_tiles = check_for_empty_tile(Vector2(size1, size2))
-	if empty_tiles.size() > 0:
-		for empty_tile in empty_tiles:
-			if randi() % 75 == 5:
-				others.set_cellv(empty_tile, mushroomDecorationIds[randi() % mushroomDecorationIds.size()])
+func add_mushroom(tile):
+	others.set_cellv(tile, mushroomDecorationIds[randi() % mushroomDecorationIds.size()])
 
 func explode_walls():
 	for positions in wall_positions:

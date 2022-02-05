@@ -42,6 +42,9 @@ func _physics_process(_delta):
 	if not world:
 		return
 	
+	if get_parent().get_parent().just_started:
+		return
+	
 	if world.over:
 		anistate.travel("Idle")
 		return
