@@ -9,6 +9,8 @@ var game_won = false setget set_won
 var over = false
 var just_started = true
 
+onready var console = $Level/CanvasLayer/HUD/console
+
 const path = "user://"
 
 func _ready():
@@ -83,10 +85,11 @@ func _input(event : InputEvent):
 	elif event.is_action_released("prtscrn"):
 		screenshots += 1
 		screenshots = clamp(screenshots, 0, 20)
-		print_debug("SCREENSHOT " + str(screenshots))
+		var save_path = path + "sokobanscreenshot_%s.png" % str(screenshots)
 		var image = get_viewport().get_texture().get_data()
 		image.flip_y()
-		image.save_png(path + "sokobanscreenshot_%s.png" % str(screenshots))
+		image.save_png(save_path)
+		console.Log(OS.get_user_data_dir() + "/" + "sokobanscreenshot_%s.png" % str(screenshots), 5)
 
 func _on_start_start():
 	$Level/CanvasLayer/HUD.show()

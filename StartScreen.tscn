@@ -5,7 +5,7 @@
 [ext_resource path="res://StartScreen.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=1]
-size = 7
+size = 9
 font_data = ExtResource( 2 )
 
 [node name="StartScreen" type="CanvasLayer"]
@@ -27,30 +27,30 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
-margin_left = 128.0
-margin_top = 124.0
-margin_right = 192.0
-margin_bottom = 195.0
+margin_left = 124.0
+margin_top = 108.0
+margin_right = 196.0
+margin_bottom = 212.0
 custom_constants/separation = 4
 
 [node name="StartButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
-margin_right = 64.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 64, 21 )
+margin_right = 72.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 72, 32 )
 size_flags_horizontal = 4
 size_flags_vertical = 0
 text = "start"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CenterContainer/VBoxContainer"]
-margin_top = 25.0
-margin_right = 64.0
-margin_bottom = 46.0
+margin_top = 36.0
+margin_right = 72.0
+margin_bottom = 68.0
 rect_min_size = Vector2( 0, 21 )
 
 [node name="LoadButton" type="Button" parent="Control/CenterContainer/VBoxContainer/HBoxContainer"]
-margin_right = 64.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 64, 21 )
+margin_right = 72.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 72, 32 )
 size_flags_horizontal = 4
 size_flags_vertical = 0
 text = "load"
@@ -71,10 +71,10 @@ rounded = true
 align = 1
 
 [node name="QuitButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
-margin_top = 50.0
-margin_right = 64.0
-margin_bottom = 71.0
-rect_min_size = Vector2( 64, 21 )
+margin_top = 72.0
+margin_right = 72.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 72, 32 )
 size_flags_horizontal = 4
 size_flags_vertical = 0
 text = "exit(!)"
@@ -86,6 +86,9 @@ margin_right = 41.0
 margin_bottom = 15.0
 custom_fonts/font = SubResource( 1 )
 text = "(c) bendn"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="pressed" from="Control/CenterContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="Control/CenterContainer/VBoxContainer/HBoxContainer/LoadButton" to="." method="_on_LoadButton_pressed"]
