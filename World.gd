@@ -81,7 +81,7 @@ func _input(event : InputEvent):
 			game_won = false
 			game_over = false
 			$Level.load_level(str(currentintlevel), false)
-		
+	
 	elif event.is_action_released("prtscrn"):
 		screenshots += 1
 		screenshots = clamp(screenshots, 0, 20)
@@ -89,7 +89,7 @@ func _input(event : InputEvent):
 		var image = get_viewport().get_texture().get_data()
 		image.flip_y()
 		image.save_png(save_path)
-		console.Log(OS.get_user_data_dir() + "/" + "sokobanscreenshot_%s.png" % str(screenshots), 5)
+		console.Log("saved to: " + OS.get_user_data_dir() + "/" + "sokobanscreenshot_%s.png" % str(screenshots), 5)
 
 func _on_start_start():
 	$Level/CanvasLayer/HUD.show()
