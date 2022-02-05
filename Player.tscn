@@ -245,6 +245,7 @@ script = ExtResource( 1 )
 position = Vector2( 8, 8 )
 texture = ExtResource( 4 )
 color = Color( 0.14902, 0.360784, 1, 1 )
+range_height = 2.0
 shadow_enabled = true
 shadow_gradient_length = 1.0
 shadow_filter = 3
@@ -274,7 +275,6 @@ position = Vector2( 8, 8 )
 cast_to = Vector2( 50, 0 )
 
 [node name="Sprite" type="Sprite" parent="."]
-light_mask = 0
 position = Vector2( 8, 8 )
 rotation = -1.5708
 texture = ExtResource( 2 )

@@ -4,20 +4,17 @@
 [ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://light2.png" type="Texture" id=3]
 [ext_resource path="res://cuberot.png" type="Texture" id=4]
-
-[sub_resource type="DynamicFont" id=3]
-size = 42
-font_data = ExtResource( 2 )
+[ext_resource path="res://PlayerSprite.gd" type="Script" id=5]
 
 [sub_resource type="OccluderPolygon2D" id=4]
-polygon = PoolVector2Array( 4, 4, 4, 36, 36, 36, 36, 4 )
+polygon = PoolVector2Array( -28, -28, -28, 68, 68, 68, 68, -28 )
 
 [sub_resource type="Animation" id=1]
 resource_name = "Animate"
 length = 2.0
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Back/Control/LoadLabel:rect_position")
+tracks/0/path = NodePath("Back/LoadLabel:rect_position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -29,7 +26,7 @@ tracks/0/keys = {
 "values": [ Vector2( 75, 139 ), Vector2( 76, 139 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Back/Control/LoadLabel:rect_rotation")
+tracks/1/path = NodePath("Back/LoadLabel:rect_rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -41,7 +38,7 @@ tracks/1/keys = {
 "values": [ 24.7415, -30.2945 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Back/Control/LoadLabel:percent_visible")
+tracks/2/path = NodePath("Back/LoadLabel:percent_visible")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -53,7 +50,7 @@ tracks/2/keys = {
 "values": [ 0.2, 1.0, 1.0 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Back/Control/LoadLabel:rect_scale")
+tracks/3/path = NodePath("Back/LoadLabel:rect_scale")
 tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -65,7 +62,7 @@ tracks/3/keys = {
 "values": [ Vector2( 1.5, 1.5 ), Vector2( 0.75, 0.75 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Back/Control/LoadLabel:custom_colors/font_color")
+tracks/4/path = NodePath("Back/LoadLabel:custom_colors/font_color")
 tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -77,16 +74,16 @@ tracks/4/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 0.588235, 1 ), Color( 1, 0.588235, 1, 1 ), Color( 0.588235, 1, 1, 1 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Back/LightOccluder2D/Light1:rotation_degrees")
-tracks/5/interp = 2
+tracks/5/path = NodePath("Back/Light1:position")
+tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 350.0 ]
+"values": [ Vector2( 16, 16 ), Vector2( 16, 304 ), Vector2( 304, 304 ), Vector2( 304, 16 ) ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -116,12 +113,15 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
+[sub_resource type="Animation" id=24]
+length = 0.001
+
 [sub_resource type="Animation" id=19]
 resource_name = "Idle"
 length = 0.1
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("PlayerSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -139,7 +139,7 @@ length = 0.35
 loop = true
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("PlayerSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -151,7 +151,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/path = NodePath("PlayerSprite:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -168,7 +168,7 @@ resource_name = "MoveLeft"
 length = 0.35
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/path = NodePath("PlayerSprite:rotation_degrees")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -180,7 +180,7 @@ tracks/0/keys = {
 "values": [ 90.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:frame")
+tracks/1/path = NodePath("PlayerSprite:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -197,7 +197,7 @@ resource_name = "MoveRight"
 length = 0.35
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/path = NodePath("PlayerSprite:rotation_degrees")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -209,7 +209,7 @@ tracks/0/keys = {
 "values": [ -90.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:frame")
+tracks/1/path = NodePath("PlayerSprite:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -227,7 +227,7 @@ length = 0.35
 loop = true
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/path = NodePath("PlayerSprite:rotation_degrees")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -239,7 +239,7 @@ tracks/0/keys = {
 "values": [ 180.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:frame")
+tracks/1/path = NodePath("PlayerSprite:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -254,7 +254,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id=21]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("PlayerSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -266,7 +266,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/path = NodePath("PlayerSprite:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -278,37 +278,9 @@ tracks/1/keys = {
 "values": [ -90.0 ]
 }
 
-[sub_resource type="Animation" id=22]
-resource_name = "Animate"
-length = 7.0
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 7 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 288 ), Vector2( 336, 288 ) ]
-}
-
-[sub_resource type="Animation" id=23]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 288 ) ]
-}
+[sub_resource type="DynamicFont" id=3]
+size = 42
+font_data = ExtResource( 2 )
 
 [node name="Back" type="ColorRect"]
 anchor_right = 1.0
@@ -320,63 +292,34 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LoadLabel" type="Label" parent="Control"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -85.0
-margin_top = -21.0
-margin_right = 77.0
-margin_bottom = 21.0
-rect_rotation = 24.7415
-rect_scale = Vector2( 1.338, 1.338 )
-rect_pivot_offset = Vector2( 83.8821, 21.1559 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0.188235, 0.294118, 0.411765, 1 )
-custom_fonts/font = SubResource( 3 )
-text = "Loading!"
-align = 1
-valign = 1
-percent_visible = 0.2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 position = Vector2( 140, 140 )
 occluder = SubResource( 4 )
 
-[node name="Light1" type="Light2D" parent="LightOccluder2D"]
-position = Vector2( 20, 20 )
-texture = ExtResource( 3 )
-offset = Vector2( -128, -128 )
-color = Color( 0.321569, 0.745098, 0.745098, 1 )
-range_layer_min = -2
-range_layer_max = 1
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="Polygon2D" type="Polygon2D" parent="LightOccluder2D"]
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( -28, -28, 68, -28, 68, 68, -28, 68 )
 
 [node name="Animate" type="AnimationPlayer" parent="."]
 root_node = NodePath("../..")
 anims/Animate = SubResource( 1 )
 anims/Fadein = SubResource( 5 )
+anims/RESET = SubResource( 24 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="PlayerSprite" type="Sprite" parent="."]
 light_mask = 0
 position = Vector2( 0, 288 )
 rotation = -1.5708
 texture = ExtResource( 4 )
 offset = Vector2( -8, -8 )
 hframes = 7
+script = ExtResource( 5 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="PlayerSprite"]
+position = Vector2( -16, -16 )
+rect = Rect2( 0, 0, 16, 16 )
+
+[node name="Tween" type="Tween" parent="PlayerSprite"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "MoveRight"
@@ -387,7 +330,38 @@ anims/MoveRight = SubResource( 20 )
 anims/MoveUp = SubResource( 7 )
 anims/RESET = SubResource( 21 )
 
-[node name="MoveCube" type="AnimationPlayer" parent="."]
-autoplay = "Animate"
-anims/Animate = SubResource( 22 )
-anims/RESET = SubResource( 23 )
+[node name="Light1" type="Light2D" parent="."]
+position = Vector2( 16, 16 )
+texture = ExtResource( 3 )
+color = Color( 0.321569, 0.745098, 0.745098, 1 )
+range_layer_min = -2
+range_layer_max = 1
+shadow_enabled = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LoadLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -84.9894
+margin_top = -21.0
+margin_right = 77.0106
+margin_bottom = 21.0
+rect_rotation = 24.1586
+rect_scale = Vector2( 1.422, 1.422 )
+rect_pivot_offset = Vector2( 83.8821, 21.1559 )
+custom_colors/font_color = Color( 1, 1, 0.948529, 1 )
+custom_colors/font_color_shadow = Color( 0.188235, 0.294118, 0.411765, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "Loading!"
+align = 1
+valign = 1
+percent_visible = 0.258162
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="screen_exited" from="PlayerSprite/VisibilityNotifier2D" to="PlayerSprite" method="_on_VisibilityNotifier2D_screen_exited"]
