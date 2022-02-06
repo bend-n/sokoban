@@ -101,13 +101,10 @@ func start():
 	$Level.show()
 	$Level.load_level(str(currentintlevel))
 
-func _process(_delta):
-	over = game_over or game_won
-
 func set_won(value):
 	game_won = value
+	over = game_over or game_won
 
 func set_over(value):
 	game_over = value
 	over = game_over or game_won
-

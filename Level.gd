@@ -37,8 +37,7 @@ func _ready():
 	reset_time()
 
 func reset_time():
-	$CanvasLayer/HUD/StopWatch.time_elapsed = 0.0
-	$CanvasLayer/HUD/StopWatch.set_process(false)
+	$CanvasLayer/HUD/StopWatch.reset()
 	print_debug("attempting to reset, remaining time: %s" % $CanvasLayer/HUD/StopWatch.time_elapsed)
 	player.started = false
 	return true
