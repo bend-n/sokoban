@@ -1,7 +1,5 @@
 extends Node2D
 
-export(Color) var color
-
 var currentintlevel :int = 1
 var screenshots = 0
 var game_over = false setget set_over
@@ -14,14 +12,21 @@ onready var console = $Level/CanvasLayer/HUD/console
 const path = "user://"
 
 func _ready():
+	if Utils.starting:
+		start()
+		Utils.starting = false
+	if Utils.loading:
+		Utils.loading = false
+		currentintlevel = Utils.loading_int
+		Utils.loading_int = 0
+		start()
 	$WinScreen.player = $Level/LevelContainer/Player
-	VisualServer.set_default_clear_color(color)
 	$WinScreen.hide(false)
 	$Level.connect("level_completed", self, "_on_Level_level_completed")
 	$Level.connect("level_reset", self, "_on_Level_level_reset")
 	$Level.connect("game_over", self, "_on_Level_game_over")
-	$StartScreen.connect("start", self, "_on_start_start")
-	$StartScreen.connect("load_level", self, "_on_start_load")
+#	$StartScreen.connect("start", self, "_on_start_start")
+#	$StartScreen.connect("load_level", self, "_on_start_load")
 
 func _on_Level_level_completed(complete = false):
 	$Level/CanvasLayer/HUD/StopWatch.set_process(false)
@@ -67,7 +72,7 @@ func _input(event : InputEvent):
 	elif event.is_action_released("next"):
 		currentintlevel += 1
 		currentintlevel = clamp(currentintlevel, 1, 60)
-		_on_start_start()
+		start()
 	
 	if event.is_action_released("ui_accept"):
 		if $WinScreen.shown:
@@ -91,18 +96,10 @@ func _input(event : InputEvent):
 		image.save_png(save_path)
 		console.Log("saved to: " + OS.get_user_data_dir() + "/" + "sokobanscreenshot_%s.png" % str(screenshots), 5)
 
-func _on_start_start():
+func start():
 	$Level/CanvasLayer/HUD.show()
 	$Level.show()
-	$StartScreen.hide()
 	$Level.load_level(str(currentintlevel))
-
-func _on_start_load(level):
-	currentintlevel = level
-	$Level.load_level(str(currentintlevel))
-	$StartScreen.hide()
-	$Level.show()
-	$Level/CanvasLayer/HUD.show()
 
 func _process(_delta):
 	over = game_over or game_won

@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const world = preload("res://World.tscn")
+
 signal start
 signal load_level(level)
 
@@ -10,6 +12,8 @@ func _ready():
 
 func _on_StartButton_pressed():
 	emit_signal("start")
+	Utils.starting = true
+	Utils.change_scene_to(world)
 
 func _on_LoadButton_pressed():
 	var spinbox : SpinBox = $Control/CenterContainer/VBoxContainer/HBoxContainer/Spinbox
@@ -27,3 +31,6 @@ func _on_spinbox_entered(text):
 	level_to_load = int(text)
 	level_to_load = clamp(level_to_load, 1, 60)
 	emit_signal("load_level", level_to_load)
+	Utils.loading = true
+	Utils.loading_int = level_to_load
+	Utils.change_scene_to(world)

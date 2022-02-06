@@ -245,7 +245,6 @@ script = ExtResource( 1 )
 position = Vector2( 8, 8 )
 texture = ExtResource( 4 )
 color = Color( 0.14902, 0.360784, 1, 1 )
-range_height = 2.0
 shadow_enabled = true
 shadow_gradient_length = 1.0
 shadow_filter = 3
@@ -271,6 +270,7 @@ offset = Vector2( 9.95932, -0.107321 )
 [node name="Tween" type="Tween" parent="."]
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+visible = false
 position = Vector2( 8, 8 )
 cast_to = Vector2( 50, 0 )
 
@@ -283,6 +283,7 @@ offset = Vector2( -8, -8 )
 hframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 8, 8 )
 shape = SubResource( 3 )
 

@@ -133,6 +133,7 @@ margin_left = -992.0
 margin_top = -688.0
 margin_right = 1232.0
 margin_bottom = 1048.0
+color = Color( 0.333333, 0.490196, 0.333333, 1 )
 
 [node name="Floors" type="TileMap" parent="LevelContainer"]
 tile_set = SubResource( 2 )
