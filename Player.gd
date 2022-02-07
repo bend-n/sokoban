@@ -140,5 +140,4 @@ func apply_rotation(offset : Vector2):
 
 func _on_Player_body_exited(body):
 	if not body.name == "Player" and not body.is_in_group("crates"):
-		print_debug(body.name)
 		emit_signal("won")

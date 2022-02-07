@@ -1,20 +1,24 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
 [ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://light2.png" type="Texture" id=3]
-[ext_resource path="res://cuberot.png" type="Texture" id=4]
-[ext_resource path="res://PlayerSprite.gd" type="Script" id=5]
+[ext_resource path="res://PlayerWalk.tscn" type="PackedScene" id=4]
+[ext_resource path="res://LoadingScreen.gd" type="Script" id=6]
+[ext_resource path="res://Back.tscn" type="PackedScene" id=7]
 
 [sub_resource type="OccluderPolygon2D" id=4]
-polygon = PoolVector2Array( -28, -28, -28, 68, 68, 68, 68, -28 )
+polygon = PoolVector2Array( -48, -48, -48, 48, 48, 48, 48, -48 )
 
-[sub_resource type="Animation" id=1]
-resource_name = "Animate"
-length = 2.0
-loop = true
+[sub_resource type="DynamicFont" id=3]
+size = 42
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=28]
+resource_name = "Fadein"
+step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("Back/LoadLabel:rect_position")
+tracks/0/path = NodePath("Container:modulate")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -23,10 +27,27 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( -2, -2 ),
 "update": 0,
-"values": [ Vector2( 75, 139 ), Vector2( 76, 139 ) ]
+"values": [ Color( 1, 1, 1, 0.18 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=26]
+resource_name = "Fadeout"
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Back/LoadLabel:rect_rotation")
+tracks/1/path = NodePath("Container:modulate")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -35,61 +56,66 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( -2, -2 ),
 "update": 0,
-"values": [ 24.7415, -30.2945 ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Back/LoadLabel:percent_visible")
+tracks/2/path = NodePath("Container/Light:energy")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.9, 1.2 ),
-"transitions": PoolRealArray( 1, -2, -2 ),
+"times": PoolRealArray( -0.025, 0.975 ),
+"transitions": PoolRealArray( -2, -2 ),
 "update": 0,
-"values": [ 0.2, 1.0, 1.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Back/LoadLabel:rect_scale")
-tracks/3/interp = 2
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.3, 1.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1.5, 1.5 ), Vector2( 0.75, 0.75 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Back/LoadLabel:custom_colors/font_color")
-tracks/4/interp = 2
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.4, 0.9, 1.4 ),
-"transitions": PoolRealArray( -2, -2, -2, -2 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 0.588235, 1 ), Color( 1, 0.588235, 1, 1 ), Color( 0.588235, 1, 1, 1 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Back/Light1:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 16, 16 ), Vector2( 16, 304 ), Vector2( 304, 304 ), Vector2( 304, 16 ) ]
+"values": [ 1.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Fadein"
+[sub_resource type="Animation" id=27]
+length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Back:modulate")
+tracks/0/path = NodePath("Container/occluder:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Container:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Container/Light:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "Animate"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Container/occluder/LoadLabel:rect_rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -98,270 +124,153 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( -2, -2 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+"values": [ 24.7415, -30.2945 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Back:visible")
-tracks/1/interp = 1
+tracks/1/path = NodePath("Container/occluder/LoadLabel:percent_visible")
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=24]
-length = 0.001
-
-[sub_resource type="Animation" id=19]
-resource_name = "Idle"
-length = 0.1
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerSprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
-
-[sub_resource type="Animation" id=8]
-resource_name = "MoveDown"
-length = 0.35
-loop = true
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerSprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("PlayerSprite:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0.0 ]
-}
-
-[sub_resource type="Animation" id=6]
-resource_name = "MoveLeft"
-length = 0.35
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerSprite:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 90.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("PlayerSprite:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6 ]
-}
-
-[sub_resource type="Animation" id=20]
-resource_name = "MoveRight"
-length = 0.35
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerSprite:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ -90.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("PlayerSprite:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6 ]
-}
-
-[sub_resource type="Animation" id=7]
-resource_name = "MoveUp"
-length = 0.35
-loop = true
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerSprite:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 180.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("PlayerSprite:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6 ]
-}
-
-[sub_resource type="Animation" id=21]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("PlayerSprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.9, 1.2 ),
+"transitions": PoolRealArray( 1, -2, -2 ),
 "update": 0,
-"values": [ 0 ]
+"values": [ 0.2, 1.0, 1.0 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("PlayerSprite:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+tracks/2/type = "value"
+tracks/2/path = NodePath("Container/occluder/LoadLabel:rect_scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3, 1.3 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ -90.0 ]
+"values": [ Vector2( 1.5, 1.5 ), Vector2( 0.75, 0.75 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Container/occluder/LoadLabel:custom_colors/font_color")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4, 0.9, 1.4 ),
+"transitions": PoolRealArray( -2, -2, -2, -2 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 0.588235, 1 ), Color( 1, 0.588235, 1, 1 ), Color( 0.588235, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Container/Light:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
+"transitions": PoolRealArray( -2, -2, -2, -2 ),
+"update": 0,
+"values": [ Vector2( 32, 32 ), Vector2( 288, 32 ), Vector2( 288, 288 ), Vector2( 32, 288 ) ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 1.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "increment_progress"
+} ]
 }
 
-[sub_resource type="DynamicFont" id=3]
-size = 42
-font_data = ExtResource( 2 )
+[node name="LoadScreen" type="CanvasLayer"]
+layer = 2
+script = ExtResource( 6 )
 
-[node name="Back" type="ColorRect"]
+[node name="Container" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_pivot_offset = Vector2( -264, 200 )
-theme = ExtResource( 1 )
-color = Color( 0.333333, 0.490196, 0.333333, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-position = Vector2( 140, 140 )
+[node name="Back" parent="Container" instance=ExtResource( 7 )]
+margin_left = -256.0
+margin_top = -256.0
+margin_right = 320.0
+margin_bottom = 320.0
+
+[node name="occluder" type="LightOccluder2D" parent="Container"]
+position = Vector2( 160, 160 )
 occluder = SubResource( 4 )
 
-[node name="Polygon2D" type="Polygon2D" parent="LightOccluder2D"]
+[node name="Polygon2D" type="Polygon2D" parent="Container/occluder"]
+position = Vector2( -20, -20 )
 color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( -28, -28, 68, -28, 68, 68, -28, 68 )
 
-[node name="Animate" type="AnimationPlayer" parent="."]
-root_node = NodePath("../..")
-anims/Animate = SubResource( 1 )
-anims/Fadein = SubResource( 5 )
-anims/RESET = SubResource( 24 )
-
-[node name="PlayerSprite" type="Sprite" parent="."]
-light_mask = 0
-position = Vector2( 0, 288 )
-rotation = -1.5708
-texture = ExtResource( 4 )
-offset = Vector2( -8, -8 )
-hframes = 7
-script = ExtResource( 5 )
-
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="PlayerSprite"]
-position = Vector2( -16, -16 )
-rect = Rect2( 0, 0, 16, 16 )
-
-[node name="Tween" type="Tween" parent="PlayerSprite"]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "MoveRight"
-anims/Idle = SubResource( 19 )
-anims/MoveDown = SubResource( 8 )
-anims/MoveLeft = SubResource( 6 )
-anims/MoveRight = SubResource( 20 )
-anims/MoveUp = SubResource( 7 )
-anims/RESET = SubResource( 21 )
-
-[node name="Light1" type="Light2D" parent="."]
-position = Vector2( 16, 16 )
-texture = ExtResource( 3 )
-color = Color( 0.321569, 0.745098, 0.745098, 1 )
-range_layer_min = -2
-range_layer_max = 1
-shadow_enabled = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LoadLabel" type="Label" parent="."]
+[node name="LoadLabel" type="Label" parent="Container/occluder"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -84.9894
+margin_left = -81.0
 margin_top = -21.0
-margin_right = 77.0106
+margin_right = 81.0
 margin_bottom = 21.0
-rect_rotation = 24.1586
-rect_scale = Vector2( 1.422, 1.422 )
+rect_rotation = -30.2293
+rect_scale = Vector2( 0.864, 0.864 )
 rect_pivot_offset = Vector2( 83.8821, 21.1559 )
-custom_colors/font_color = Color( 1, 1, 0.948529, 1 )
+custom_colors/font_color = Color( 0.868235, 0.72, 1, 1 )
 custom_colors/font_color_shadow = Color( 0.188235, 0.294118, 0.411765, 1 )
 custom_fonts/font = SubResource( 3 )
 text = "Loading!"
 align = 1
 valign = 1
-percent_visible = 0.258162
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="screen_exited" from="PlayerSprite/VisibilityNotifier2D" to="PlayerSprite" method="_on_VisibilityNotifier2D_screen_exited"]
+[node name="Progressbar" type="ProgressBar" parent="Container/occluder"]
+margin_left = -64.0
+margin_top = 64.0
+margin_right = 64.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 40, 0 )
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerSprite" parent="Container" instance=ExtResource( 4 )]
+position = Vector2( 0, 256 )
+
+[node name="Light" type="Light2D" parent="Container"]
+position = Vector2( 275.433, 296.667 )
+texture = ExtResource( 3 )
+color = Color( 0.321569, 0.745098, 0.745098, 1 )
+range_layer_min = -2
+range_layer_max = 2
+shadow_enabled = true
+shadow_gradient_length = 4.0
+shadow_filter = 3
+shadow_filter_smooth = 11.1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Tween" type="Tween" parent="Container"]
+
+[node name="fade" type="AnimationPlayer" parent="."]
+anims/Fadein = SubResource( 28 )
+anims/Fadeout = SubResource( 26 )
+anims/RESET = SubResource( 27 )
+
+[node name="animate" type="AnimationPlayer" parent="."]
+anims/Animate = SubResource( 1 )

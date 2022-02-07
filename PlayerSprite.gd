@@ -6,7 +6,7 @@ onready var initial_pos = position
 
 var start_new = true
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if tween.is_active():
 		return
 	
@@ -17,8 +17,8 @@ func _physics_process(delta):
 		self,
 		"position",
 		position,
-		position + Vector2.RIGHT * 16,
-		.35,
+		position + Vector2.RIGHT * 32,
+		.7,
 		tween.TRANS_LINEAR,
 		tween.EASE_IN_OUT
 	)

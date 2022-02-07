@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=2]
+[gd_resource type="Theme" load_steps=9 format=2]
 
 [ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://transparency.png" type="Texture" id=2]
@@ -14,6 +14,9 @@ extra_spacing_top = 3
 extra_spacing_char = 1
 font_data = ExtResource( 1 )
 
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.3009, 0.59, 0.3009, 1 )
+
 [resource]
 default_font = ExtResource( 5 )
 Button/colors/font_color = Color( 1, 1, 1, 1 )
@@ -27,4 +30,8 @@ Button/styles/normal = ExtResource( 4 )
 Button/styles/pressed = ExtResource( 3 )
 LineEdit/fonts/font = SubResource( 3 )
 LineEdit/styles/normal = ExtResource( 4 )
+ProgressBar/colors/font_color = Color( 1, 1, 1, 1 )
+ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
+ProgressBar/styles/bg = ExtResource( 4 )
+ProgressBar/styles/fg = SubResource( 4 )
 SpinBox/icons/updown = ExtResource( 2 )

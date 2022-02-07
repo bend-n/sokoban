@@ -30,6 +30,7 @@ var level_size = Vector2(0, 0)
 signal game_over()
 signal level_completed(completed)
 signal level_reset()
+signal level_made()
 
 func _ready():
 	player.connect("level_reset_requested", self, "_on_Player_level_reset_requested")
@@ -38,7 +39,6 @@ func _ready():
 
 func reset_time():
 	$CanvasLayer/HUD/StopWatch.reset()
-	print_debug("attempting to reset, remaining time: %s" % $CanvasLayer/HUD/StopWatch.time_elapsed)
 	player.started = false
 	return true
 
@@ -48,17 +48,14 @@ func start_stopwatch():
 func load_level(level: String, decorate = true):
 	$LevelContainer/Walls.modulate = Color.white
 	$LevelContainer/Player/RayCast2D.set_collision_mask_bit(0, true)
-	print_debug("thread alive? ", thread.is_alive(), " | thread active? ", thread.is_active())
 	if thread.is_alive():
 		return
 	if thread.is_active():
 		thread.wait_to_finish()
-	print_debug(reset_time())
-	print_debug("attempting to load level %s" % level)
+	reset_time()
 	thread.start(self, "level_load", [level, decorate])
 
 func level_load(level : Array):
-	print_debug("loading level %s" % level[0])
 	just_started = true
 	player.set_moves(0)
 	current_level = level[0]
@@ -70,12 +67,12 @@ func _exit_tree():
 
 func _reset_level(decorate):
 	player.initialize()
-	walls.clear()
-	if decorate:
-		others.clear()
-	delete_children(floors)
 	delete_children(crates)
-	delete_children(targets)
+	if decorate:
+		walls.clear()
+		others.clear()
+		delete_children(floors)
+		delete_children(targets)
 	
 	if current_level == "":
 		return
@@ -104,15 +101,18 @@ func _reset_level(decorate):
 				var tile_pos = Vector2(col, row) * GRID_SIZE
 				
 				if x == '#':
-					add_wall(tile_pos)
+					if decorate:
+						add_wall(tile_pos)
 				if x in ['.', 'X', 'O', '@', '%', 'A']:
-					add_floor(tile_pos)
+					if decorate:
+						add_floor(tile_pos)
 				if x in ['@', 'A']:
 					player_pos = tile_pos
 				if x in ['X', '%']:
 					add_crate(tile_pos)
 				if x in ['O', '%', 'A']:
-					add_target(tile_pos)
+					if decorate:
+						add_target(tile_pos)
 				
 				col += 1
 			row += 1
@@ -147,9 +147,10 @@ func _reset_level(decorate):
 	if decorate:
 		decorate(-50, 50)
 	initialize_player(player_pos)
-#	print(check_for_empty_tile(Vector2(-75, 75)))
+	Utils.unload_loading_screen()
 	yield(timer, "timeout")
 	just_started = false
+	emit_signal("level_made")
 	return
 
 static func delete_children(node):

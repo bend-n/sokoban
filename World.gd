@@ -7,6 +7,7 @@ var game_won = false setget set_won
 var over = false
 var just_started = true
 
+onready var level = $Level
 onready var console = $Level/CanvasLayer/HUD/console
 
 const path = "user://"
@@ -22,16 +23,17 @@ func _ready():
 		start()
 	$WinScreen.player = $Level/LevelContainer/Player
 	$WinScreen.hide(false)
-	$Level.connect("level_completed", self, "_on_Level_level_completed")
-	$Level.connect("level_reset", self, "_on_Level_level_reset")
-	$Level.connect("game_over", self, "_on_Level_game_over")
+	level.connect("level_completed", self, "_on_Level_level_completed")
+	level.connect("level_reset", self, "_on_Level_level_reset")
+	level.connect("game_over", self, "_on_Level_game_over")
+#	level.connect("level_made", self, "_on_Level_made")
 #	$StartScreen.connect("start", self, "_on_start_start")
 #	$StartScreen.connect("load_level", self, "_on_start_load")
 
 func _on_Level_level_completed(complete = false):
 	$Level/CanvasLayer/HUD/StopWatch.set_process(false)
 	if complete:
-		$WinScreen.show(str($Level.current_level))
+		$WinScreen.show(str(level.current_level))
 		game_over = false
 		game_won = true
 	else:
@@ -48,7 +50,7 @@ func _on_Level_game_over():
 	game_over = true
 	game_won = false
 	if not $GameoverScreen.shown:
-		$GameoverScreen.show(str($Level.current_level))
+		$GameoverScreen.show(str(level.current_level))
 
 onready var cam = $Level/LevelContainer/Player.cam
 
@@ -72,6 +74,8 @@ func _input(event : InputEvent):
 	elif event.is_action_released("next"):
 		currentintlevel += 1
 		currentintlevel = clamp(currentintlevel, 1, 60)
+		
+		
 		start()
 	
 	if event.is_action_released("ui_accept"):
@@ -79,13 +83,13 @@ func _input(event : InputEvent):
 			currentintlevel += 1
 			$WinScreen.hide(true)
 			game_won = false
-			$Level.load_level(str(currentintlevel))
+			level.load_level(str(currentintlevel))
 		
 		elif $GameoverScreen.shown:
 			$GameoverScreen.hide(true) 
 			game_won = false
 			game_over = false
-			$Level.load_level(str(currentintlevel), false)
+			level.load_level(str(currentintlevel), false)
 	
 	elif event.is_action_released("prtscrn"):
 		screenshots += 1
@@ -97,9 +101,11 @@ func _input(event : InputEvent):
 		console.Log("saved to: " + OS.get_user_data_dir() + "/" + "sokobanscreenshot_%s.png" % str(screenshots), 5)
 
 func start():
+	Utils.load_loading_screen()
+	yield(Utils, "loaded_loading_screen")
 	$Level/CanvasLayer/HUD.show()
-	$Level.show()
-	$Level.load_level(str(currentintlevel))
+	level.show()
+	level.load_level(str(currentintlevel))
 
 func set_won(value):
 	game_won = value
@@ -108,3 +114,4 @@ func set_won(value):
 func set_over(value):
 	game_over = value
 	over = game_over or game_won
+
