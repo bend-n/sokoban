@@ -6,7 +6,7 @@ var starting = false
 var loading = false
 var loading_int = 0
 
-var loadScreen : CanvasLayer
+var loadScreen : CanvasLayer = null
 
 signal loaded_loading_screen
 
@@ -27,6 +27,9 @@ func change_scene_to(scene):
 	get_tree().change_scene_to(scene)
 
 func load_loading_screen():
+	# redundancy check
+	if loadScreen != null:
+		return
 	loadScreen = instance_scene_on_main(Vector2.ZERO, LoadScreen)
 	loadScreen.startup()
 	yield(loadScreen, "startup_complete")

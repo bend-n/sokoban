@@ -15,6 +15,7 @@ func _ready():
 	$Container/occluder.position = center
 
 func startup():
+	_set_disable_inputs(true)
 	fade.play("Fadein")
 	animate.play("Animate")
 	yield(fade, "animation_finished")
@@ -28,7 +29,15 @@ func exit():
 	tween_progress(progress.value, 100, Vector2(1, 2))
 	yield(tween, "tween_all_completed")
 	fade.play("Fadeout")
+	_set_disable_inputs(false)
 #	emit_signal("exit_complete")
+
+func _set_disable_inputs(inputs):
+	get_viewport().gui_disable_input = inputs
+	get_tree().call_group("input", "set_process_input", !inputs)
+
+func _exit_tree():
+	_set_disable_inputs(false)
 
 func tween_progress(old :float, new :float, length_range :Vector2):
 	tween.interpolate_property(
