@@ -55,7 +55,7 @@ func load_level(level: String, decorate = true):
 	reset_time()
 	consol = MainInstances.console
 	if decorate:
-		consol.Log("Generating level " + level, .5)
+		consol.Log("Generating level " + level, .5, .5)
 	thread.start(self, "level_load", [level, decorate])
 
 func level_load(level : Array):

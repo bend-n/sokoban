@@ -97,7 +97,7 @@ func _input(event : InputEvent):
 		var save_path = path + "sokobanscreenshot_%s.png" % str(screenshots)
 		var image = get_viewport().get_texture().get_data()
 		image.flip_y()
-		if console.Log("saved to: " + OS.get_user_data_dir() + "/" + "sokobanscreenshot_%s.png" % str(screenshots), 5):
+		if console.Log("saved to: " + OS.get_user_data_dir() + "/" + "sokobanscreenshot_%s.png" % str(screenshots), 1, 2.5):
 			image.save_png(save_path)
 
 func start():

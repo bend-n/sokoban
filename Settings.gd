@@ -32,9 +32,10 @@ func _on_FullscreenButton_toggled(button_pressed):
 func update_settings(echo = true) -> void:
 	if not echo:
 		_settings.vsync = OS.vsync_enabled
-		_settings.fullscreeen = OS.window_fullscreen
+		_settings.fullscreen = OS.window_fullscreen
 		_settings.resolution = OS.window_size
 		update_settings_visual()
+	print(_settings)
 	resolution_input.placeholder_text = str(_settings.resolution.x) + "x" + str(_settings.resolution.y)
 	OS.window_fullscreen = _settings.fullscreen
 	OS.set_window_size(_settings.resolution)
@@ -42,13 +43,13 @@ func update_settings(echo = true) -> void:
 	globalsettings.stopwatch = _settings.stopwatch
 	update_settings_visual()
 	if echo:
-		MainInstances.console.Log("Settings applied.", 3)
+		MainInstances.console.Log("Settings applied.", .1, 3)
 	$ColorRect/VBoxContainer/HBoxContainer2/ResolutionHolder.visible = !_settings.fullscreen
 
 func _on_ResolutionInput_text_entered(new_text : String):
 	var text = new_text.split("x")
 	if text.size() != 1: 
-		MainInstances.console.Log("Please split text with a x (1270x720)", 5)
+		MainInstances.console.Log("Please split text with a x (1270x720)", 2.5, 5)
 		return
 	_settings.resolution = Vector2(text[0], text[1])
 	update_settings()
