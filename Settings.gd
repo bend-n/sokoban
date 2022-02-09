@@ -30,6 +30,11 @@ func _on_FullscreenButton_toggled(button_pressed):
 	update_settings()
 
 func update_settings(echo = true) -> void:
+	if not echo:
+		_settings.vsync = OS.vsync_enabled
+		_settings.fullscreeen = OS.window_fullscreen
+		_settings.resolution = OS.window_size
+		update_settings_visual()
 	resolution_input.placeholder_text = str(_settings.resolution.x) + "x" + str(_settings.resolution.y)
 	OS.window_fullscreen = _settings.fullscreen
 	OS.set_window_size(_settings.resolution)

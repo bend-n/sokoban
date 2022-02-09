@@ -3,6 +3,7 @@ extends CanvasLayer
 func _ready():
 	$PauseMenu.hide()
 
+
 func pause_toggle(new_pause_state):
 #	var new_pause_state = not get_tree().paused
 	get_tree().paused = new_pause_state

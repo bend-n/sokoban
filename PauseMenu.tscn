@@ -44,9 +44,8 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CenterContainer"]
 margin_left = 115.0
-margin_top = 25.0
 margin_right = 205.0
-margin_bottom = 481.0
+margin_bottom = 506.0
 custom_constants/separation = 4
 
 [node name="QuitButton" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
@@ -62,27 +61,26 @@ margin_right = 90.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 90, 30 )
 size_flags_vertical = 0
-text = "settings"
+text = "back"
 
 [node name="Gap2" type="Control" parent="ColorRect/CenterContainer/VBoxContainer"]
 margin_top = 68.0
 margin_right = 90.0
-margin_bottom = 218.0
-rect_min_size = Vector2( 0, 150 )
+margin_bottom = 68.0
 
 [node name="Back" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
-margin_top = 222.0
+margin_top = 72.0
 margin_right = 90.0
-margin_bottom = 252.0
+margin_bottom = 102.0
 rect_min_size = Vector2( 90, 30 )
 size_flags_vertical = 0
 text = "back"
 
 [node name="Gap" type="Control" parent="ColorRect/CenterContainer/VBoxContainer"]
-margin_top = 256.0
+margin_top = 106.0
 margin_right = 90.0
-margin_bottom = 456.0
-rect_min_size = Vector2( 0, 200 )
+margin_bottom = 506.0
+rect_min_size = Vector2( 0, 400 )
 
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
