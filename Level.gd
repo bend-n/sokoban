@@ -39,12 +39,11 @@ func _ready():
 	reset_time()
 
 func reset_time():
-	$CanvasLayer/HUD/StopWatch.reset()
+	MainInstances.stopwatch.reset()
 	player.started = false
-	return true
 
 func start_stopwatch():
-	$CanvasLayer/HUD/StopWatch.set_process(true)
+	MainInstances.stopwatch.start()
 
 func load_level(level: String, decorate = true):
 	$LevelContainer/Walls.modulate = Color.white

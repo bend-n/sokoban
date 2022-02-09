@@ -142,6 +142,8 @@ format = 1
 
 [node name="Others" parent="LevelContainer" instance=ExtResource( 6 )]
 
+[node name="Targets" type="Node2D" parent="LevelContainer"]
+
 [node name="Player" parent="LevelContainer" instance=ExtResource( 1 )]
 position = Vector2( 168, 80 )
 collision_layer = 1
@@ -149,8 +151,6 @@ collision_mask = 1
 
 [node name="AnimationTree" parent="LevelContainer/Player" index="9"]
 parameters/playback = SubResource( 5 )
-
-[node name="Targets" type="Node2D" parent="LevelContainer"]
 
 [node name="Crates" type="Node2D" parent="LevelContainer"]
 

@@ -1,10 +1,12 @@
 extends Control
 
-var _settings := {resolution = Vector2(1280, 720), fullscreen = true, vsync = false}
+var _settings := {resolution = Vector2(1280, 720), fullscreen = true, vsync = false, stopwatch = false}
 
 export (NodePath) onready var vsyncbutton = get_node(vsyncbutton)
 export (NodePath) onready var fullscreenbutton = get_node(fullscreenbutton)
 export (NodePath) onready var resolution_input = get_node(resolution_input)
+export (NodePath) onready var stopwatchbox = get_node(stopwatchbox)
+
 
 func start():
 	show()
@@ -17,6 +19,7 @@ func update_settings_visual():
 	vsyncbutton.pressed = _settings.vsync
 	var resolution_text_placeholder = str(_settings.resolution.x) + "x" + str(_settings.resolution.y)
 	resolution_input.placeholder_text = resolution_text_placeholder
+	stopwatchbox.pressed = globalsettings.stopwatch
 
 func _on_VscynButton_toggled(button_pressed):
 	_settings.vsync = button_pressed
@@ -31,6 +34,7 @@ func update_settings(echo = true) -> void:
 	OS.window_fullscreen = _settings.fullscreen
 	OS.set_window_size(_settings.resolution)
 	OS.vsync_enabled = _settings.vsync
+	globalsettings.stopwatch = _settings.stopwatch
 	update_settings_visual()
 	if echo:
 		MainInstances.console.Log("Settings applied.", 3)
@@ -54,3 +58,6 @@ func _on_ExitButton_pressed():
 		get_parent().pause_toggle(true)
 	else:
 		push_warning("Parent of %s not pausemenu" % self)
+
+func _on_StopwatchBox_toggled(button_pressed):
+	_settings.stopwatch = button_pressed

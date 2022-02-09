@@ -54,3 +54,4 @@ func tween_progress(old :float, new :float, length_range :Vector2):
 func increment_progress():
 	if not tween.is_active() and not queued:
 		tween_progress(progress.value, progress.value + round(rand_range(5, 25)), Vector2(1, 2))
+	

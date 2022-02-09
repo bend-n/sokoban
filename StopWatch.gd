@@ -3,7 +3,14 @@ extends Label
 var time_elapsed := 0.0
 
 func _ready():
+	MainInstances.stopwatch = self
 	set_process(false)
+
+func start():
+	set_process(true)
+
+func _exit_tree():
+	MainInstances.stopwatch = null
 
 func reset():
 	time_elapsed = 0.0

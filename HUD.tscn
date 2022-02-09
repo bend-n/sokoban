@@ -87,6 +87,7 @@ __meta__ = {
 
 [node name="StopWatch" type="Label" parent="."]
 pause_mode = 1
+visible = false
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 116.0

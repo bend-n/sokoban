@@ -26,6 +26,7 @@ Music="*res://Music.tscn"
 SoundFx="*res://SoundFX.tscn"
 Utils="*res://Utils.gd"
 MainInstances="*res://MainInstances.gd"
+globalsettings="*res://globalsettings.gd"
 
 [debug]
 
