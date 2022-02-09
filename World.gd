@@ -8,7 +8,7 @@ var over = false
 var just_started = true
 
 onready var level = $Level
-onready var console = $Level/CanvasLayer/HUD/console
+onready var console = MainInstances.console
 
 const path = "user://"
 
@@ -97,8 +97,8 @@ func _input(event : InputEvent):
 		var save_path = path + "sokobanscreenshot_%s.png" % str(screenshots)
 		var image = get_viewport().get_texture().get_data()
 		image.flip_y()
-		image.save_png(save_path)
-		console.Log("saved to: " + OS.get_user_data_dir() + "/" + "sokobanscreenshot_%s.png" % str(screenshots), 5)
+		if console.Log("saved to: " + OS.get_user_data_dir() + "/" + "sokobanscreenshot_%s.png" % str(screenshots), 5):
+			image.save_png(save_path)
 
 func start():
 	Utils.load_loading_screen()

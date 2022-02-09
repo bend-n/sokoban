@@ -37,7 +37,7 @@ custom_constants/separation = 4
 margin_right = 72.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 72, 32 )
-size_flags_horizontal = 4
+size_flags_horizontal = 7
 size_flags_vertical = 0
 text = "start"
 
@@ -50,9 +50,11 @@ rect_min_size = Vector2( 0, 21 )
 [node name="LoadButton" type="Button" parent="Control/CenterContainer/VBoxContainer/HBoxContainer"]
 margin_right = 72.0
 margin_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 72, 32 )
-size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_horizontal = 7
+size_flags_vertical = 3
 text = "load"
 
 [node name="Spinbox" type="SpinBox" parent="Control/CenterContainer/VBoxContainer/HBoxContainer"]
@@ -76,7 +78,7 @@ margin_top = 72.0
 margin_right = 72.0
 margin_bottom = 104.0
 rect_min_size = Vector2( 72, 32 )
-size_flags_horizontal = 4
+size_flags_horizontal = 7
 size_flags_vertical = 0
 text = "exit(!)"
 

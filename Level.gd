@@ -20,6 +20,7 @@ onready var floors = $LevelContainer/Floors
 onready var timer = $Timer
 onready var others = $LevelContainer/Others
 onready var cam = $LevelContainer/Player/Camera2D
+var consol
 
 var current_level := ""
 onready var tilemaps = [walls, others, floors]
@@ -53,6 +54,9 @@ func load_level(level: String, decorate = true):
 	if thread.is_active():
 		thread.wait_to_finish()
 	reset_time()
+	consol = MainInstances.console
+	if decorate:
+		consol.Log("Generating level " + level, .5)
 	thread.start(self, "level_load", [level, decorate])
 
 func level_load(level : Array):

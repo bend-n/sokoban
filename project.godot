@@ -25,6 +25,7 @@ config/windows_native_icon="res://icon.ico"
 Music="*res://Music.tscn"
 SoundFx="*res://SoundFX.tscn"
 Utils="*res://Utils.gd"
+MainInstances="*res://MainInstances.gd"
 
 [debug]
 
@@ -35,6 +36,7 @@ gdscript/warnings/return_value_discarded=false
 
 window/size/width=320
 window/size/height=320
+window/size/resizable=false
 window/size/fullscreen=true
 window/size/test_width=1280
 window/size/test_height=720

@@ -14,5 +14,11 @@ func pause_toggle(new_pause_state):
 func _on_QuitButton_pressed():
 	get_tree().quit()
 
-func _on_Settings_toggled(button_pressed):
+func _on_Settings_toggled(button_pressed): # pause enablement button
 	pause_toggle(button_pressed)
+# not to be confused
+func _on_SettingsButton_pressed():
+	$SettingsMenu.start()
+
+func _on_Back_pressed():
+	pause_toggle(false)

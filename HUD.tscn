@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://console.gd" type="Script" id=1]
 [ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://StopWatch.gd" type="Script" id=3]
 [ext_resource path="res://theme.tres" type="Theme" id=4]
@@ -18,26 +17,6 @@ size = 38
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 9
-font_data = ExtResource( 2 )
-
-[sub_resource type="Animation" id=5]
-resource_name = "play"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:percent_visible")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 3 ),
-"transitions": PoolRealArray( -2, -2 ),
-"update": 0,
-"values": [ 0.0, 1.0 ]
-}
 
 [node name="HUD" type="Control"]
 pause_mode = 2
@@ -117,19 +96,3 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="console" type="Label" parent="."]
-margin_left = 8.0
-margin_top = 32.0
-margin_right = 73.0
-margin_bottom = 52.0
-custom_fonts/font = SubResource( 4 )
-text = "console"
-percent_visible = 0.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="anim" type="AnimationPlayer" parent="console"]
-anims/play = SubResource( 5 )

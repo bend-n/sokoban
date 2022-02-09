@@ -4,6 +4,7 @@ const world = preload("res://World.tscn")
 
 signal start
 signal load_level(level)
+signal settings_wanted
 
 var level_to_load = 1
 
