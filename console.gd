@@ -12,16 +12,16 @@ func Log(new_text :String, time := .5, length := 2.5):
 		return false
 	label.percent_visible = 0
 	label.text = new_text
-	tween(tween, 0, 1, time)
+	tween_(0, 1, time)
 	yield(tween, "tween_all_completed")
 	yield(get_tree().create_timer(length), "timeout")
-	tween(tween, 1, 0, time)
+	tween_(1, 0, time)
 	return true
 
 func _exit_tree():
 	MainInstances.console = null
 
-func tween(tween : Tween, from, to, time):
+func tween_(from, to, time):
 	tween.interpolate_property(
 		$Label,
 		"percent_visible",
