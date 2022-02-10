@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
 [ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=2]
@@ -13,6 +13,38 @@ polygon = PoolVector2Array( -48, -48, -48, 48, 48, 48, 48, -48 )
 [sub_resource type="DynamicFont" id=3]
 size = 42
 font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=29]
+resource_name = "Animate"
+length = 5.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:unit_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+
+[sub_resource type="Animation" id=30]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 
 [sub_resource type="Animation" id=28]
 resource_name = "Fadein"
@@ -59,7 +91,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Container/Light:energy")
+tracks/2/path = NodePath("Container/Path/PathFollow/Light:energy")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -98,7 +130,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Container/Light:energy")
+tracks/2/path = NodePath("Container/Path/PathFollow/Light:energy")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -162,25 +194,13 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 0.588235, 1 ), Color( 1, 0.588235, 1, 1 ), Color( 0.588235, 1, 1, 1 ) ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("Container/Light:position")
-tracks/4/interp = 2
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 1.5 ),
-"transitions": PoolRealArray( -2, -2, -2, -2 ),
-"update": 0,
-"values": [ Vector2( 32, 32 ), Vector2( 288, 32 ), Vector2( 288, 288 ), Vector2( 32, 288 ) ]
-}
-tracks/5/type = "method"
-tracks/5/path = NodePath(".")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "times": PoolRealArray( 1.4 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -224,15 +244,16 @@ margin_left = -81.0
 margin_top = -21.0
 margin_right = 81.0
 margin_bottom = 21.0
-rect_rotation = -30.2293
-rect_scale = Vector2( 0.864, 0.864 )
+rect_rotation = 24.7415
+rect_scale = Vector2( 1.338, 1.338 )
 rect_pivot_offset = Vector2( 83.8821, 21.1559 )
-custom_colors/font_color = Color( 0.868235, 0.72, 1, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0.188235, 0.294118, 0.411765, 1 )
 custom_fonts/font = SubResource( 3 )
 text = "Loading!"
 align = 1
 valign = 1
+percent_visible = 0.2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -251,8 +272,24 @@ __meta__ = {
 [node name="PlayerSprite" parent="Container" instance=ExtResource( 4 )]
 position = Vector2( 0, 256 )
 
-[node name="Light" type="Light2D" parent="Container"]
-position = Vector2( 275.433, 296.667 )
+[node name="Tween" type="Tween" parent="Container"]
+
+[node name="Path" type="Path2D" parent="Container"]
+curve = null
+
+[node name="PathFollow" type="PathFollow2D" parent="Container/Path"]
+position = Vector2( 192, 64 )
+rotation = 1.10714
+lookahead = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Container/Path/PathFollow"]
+autoplay = "Animate"
+anims/Animate = SubResource( 29 )
+anims/RESET = SubResource( 30 )
+
+[node name="Light" type="Light2D" parent="Container/Path/PathFollow"]
+rotation = -0.124351
+scale = Vector2( 1, 1 )
 texture = ExtResource( 3 )
 color = Color( 0.321569, 0.745098, 0.745098, 1 )
 range_layer_min = -2
@@ -264,8 +301,6 @@ shadow_filter_smooth = 11.1
 __meta__ = {
 "_editor_description_": ""
 }
-
-[node name="Tween" type="Tween" parent="Container"]
 
 [node name="fade" type="AnimationPlayer" parent="."]
 anims/Fadein = SubResource( 28 )
