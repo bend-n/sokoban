@@ -30,6 +30,7 @@ func load_loading_screen():
 	# redundancy check
 	if loadScreen != null:
 		return
+	yield(get_tree().create_timer(.1),"timeout")
 	loadScreen = instance_scene_on_main(Vector2.ZERO, LoadScreen)
 	loadScreen.startup()
 	yield(loadScreen, "startup_complete")

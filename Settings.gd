@@ -9,9 +9,11 @@ export (NodePath) onready var resolution_input = get_node(resolution_input)
 export (NodePath) onready var stopwatchbox = get_node(stopwatchbox)
 
 func _ready():
-	SaveLoad.save("settings")
 	var data = SaveLoad.files.settings.data
 	_settings.stopwatch = data.stopwatch
+	_settings.resolution = data.resolution
+	_settings.vsync = data.vsync
+	_settings.fullscreen = data.fullscreen
 	update_settings(false)
 
 func start():
@@ -42,25 +44,33 @@ func update_settings(open := true ) -> void:
 		_settings.vsync = OS.vsync_enabled
 		_settings.fullscreen = OS.window_fullscreen
 		_settings.resolution = OS.window_size
-		update_settings_visual()
-	resolution_input.placeholder_text = str(_settings.resolution.x) + "x" + str(_settings.resolution.y)
-	OS.window_fullscreen = _settings.fullscreen
-	OS.set_window_size(_settings.resolution)
-	OS.vsync_enabled = _settings.vsync
-	globalsettings.stopwatch = _settings.stopwatch
-	SaveLoad.files.settings.data.stopwatch = _settings.stopwatch
+		var data = SaveLoad.files.settings.data
+		_settings = data
+	update_settings_visual()
+	apply_settings()
 	if open:
 		MainInstances.console.Log("Settings applied.", .1, 1)
 	$ColorRect/VBoxContainer/HBoxContainer2/ResolutionHolder.visible = !_settings.fullscreen
 	SaveLoad.save("settings")
 
+func apply_settings():
+	resolution_input.placeholder_text = str(_settings.resolution.x) + "x" + str(_settings.resolution.y)
+	OS.window_fullscreen = _settings.fullscreen
+	OS.set_window_size(_settings.resolution)
+	OS.vsync_enabled = _settings.vsync
+	globalsettings.stopwatch = _settings.stopwatch
+
 func _on_ResolutionInput_text_entered(new_text : String):
 	if starting: return
 	var text = new_text.split("x")
-	if text.size() != 1: 
+	if text.size() < 1: 
 		MainInstances.console.Log("Please split text with a x (1270x720)", 2.5, 5)
 		return
-	_settings.resolution = Vector2(text[0], text[1])
+	for number in text:
+		number = round(number)
+		number = clamp(number, 400, 4000)
+	var new_res = Vector2(text[0], text[1])
+	_settings.resolution = new_res
 	update_settings()
 
 func _on_ResolutionButton_pressed():

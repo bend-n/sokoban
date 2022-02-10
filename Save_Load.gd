@@ -6,7 +6,10 @@ const level_file = "user://level_data.res"
 var files := { # file types
 	"settings" : {
 		"file" : settings_file,
-		"data" : { "stopwatch" : false 
+		"data" : { "stopwatch" : false,
+		"fullscreen" : true,
+		"resolution" : Vector2(1280, 720),
+		"vsync" : false
 		}
 	},
 	"level" : {
@@ -31,9 +34,10 @@ func load_data(type : String):
 	if check_file(type):
 		file.open(files[type].file, File.READ)
 		if file.get_as_text().length() > 0:
-			var read_dictionary = str2var(file.get_as_text())
-			files[type].data = read_dictionary
-			file.close()
+			var read_dictionary : Dictionary = str2var(file.get_as_text())
+			if files[type].data.size() == read_dictionary.size():
+				files[type].data = read_dictionary
+		file.close()
 
 func check_file(type):
 	var file = File.new()

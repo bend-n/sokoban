@@ -35,7 +35,7 @@ margin_left = -104.0
 margin_top = 8.0
 margin_right = -8.0
 margin_bottom = 28.0
-text = "Moves = 0"
+text = "Moves: 0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
