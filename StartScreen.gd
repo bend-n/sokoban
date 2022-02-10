@@ -2,16 +2,13 @@ extends CanvasLayer
 
 const world = preload("res://World.tscn")
 
-signal start
-signal load_level(level)
-
 var level_to_load = 1
 
 func _ready():
+	$Control/Hi.text = "Highscore: " + SaveLoad.files.level.data.highest_level
 	$Control/CenterContainer/VBoxContainer/StartButton.grab_focus()
 
 func _on_StartButton_pressed():
-	emit_signal("start")
 	Utils.starting = true
 	Utils.change_scene_to(world)
 
@@ -30,7 +27,12 @@ func hide():
 func _on_spinbox_entered(text):
 	level_to_load = int(text)
 	level_to_load = clamp(level_to_load, 1, 60)
-	emit_signal("load_level", level_to_load)
 	Utils.loading = true
 	Utils.loading_int = level_to_load
+	Utils.change_scene_to(world)
+
+
+func _on_ContinueButton_pressed():
+	Utils.loading_int = int(SaveLoad.files.level.data.current_level)
+	Utils.loading = true
 	Utils.change_scene_to(world)

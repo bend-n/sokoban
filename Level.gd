@@ -56,6 +56,8 @@ func load_level(level: String, decorate = true):
 	consol = MainInstances.console
 	if decorate:
 		consol.Log("Generating level " + level, .5, .5)
+	SaveLoad.files.level.data.current_level = level
+	SaveLoad.save("level")
 	thread.start(self, "level_load", [level, decorate])
 
 func level_load(level : Array):

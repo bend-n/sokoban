@@ -9,11 +9,9 @@ export (NodePath) onready var resolution_input = get_node(resolution_input)
 export (NodePath) onready var stopwatchbox = get_node(stopwatchbox)
 
 func _ready():
+	SaveLoad.save("settings")
 	var data = SaveLoad.files.settings.data
-	if SaveLoad.check_file("settings"):
-		_settings.stopwatch = data.stopwatch
-	else:
-		SaveLoad.save("settings")
+	_settings.stopwatch = data.stopwatch
 	update_settings(false)
 
 func start():
@@ -27,7 +25,7 @@ func update_settings_visual():
 	vsyncbutton.pressed = _settings.vsync
 	var resolution_text_placeholder = str(_settings.resolution.x) + "x" + str(_settings.resolution.y)
 	resolution_input.placeholder_text = resolution_text_placeholder
-	stopwatchbox.pressed = globalsettings.stopwatch
+	stopwatchbox.pressed = _settings.stopwatch
 
 func _on_VscynButton_toggled(button_pressed):
 	if starting: return

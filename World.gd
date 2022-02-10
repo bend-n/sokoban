@@ -32,8 +32,10 @@ func _ready():
 
 func _on_Level_level_completed(complete = false):
 	$Level/CanvasLayer/HUD/StopWatch.set_process(false)
+	
 	if complete:
 		$WinScreen.show(str(level.current_level))
+		save(currentintlevel + 1)
 		game_over = false
 		game_won = true
 	else:
@@ -45,6 +47,12 @@ func _on_Level_level_reset():
 	$GameoverScreen.hide(true)
 	game_over = false
 	game_won = false
+
+func save(new_level): # what level are we on/going to
+	if (new_level) > int(SaveLoad.files.level.data.highest_level):
+		SaveLoad.files.level.data.highest_level = str(new_level - 1)
+		console.Log("New Highscore!")
+	SaveLoad.save("level")
 
 func _on_Level_game_over():
 	game_over = true

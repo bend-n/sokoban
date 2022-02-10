@@ -3,19 +3,23 @@ extends Node
 const settings_file = "user://settings.res"
 const level_file = "user://level_data.res"
 
-var files := {
+var files := { # file types
 	"settings" : {
 		"file" : settings_file,
-		"data" : { "stopwatch" : false }
+		"data" : { "stopwatch" : false 
+		}
 	},
 	"level" : {
 		"file" : level_file,
-		"data" : {"highest_level" : "1"}
+		"data" : { "highest_level" : "0",
+		"current_level" : "1"
+		}
 	}
 }
 
 func _ready():
 	load_data("settings")
+	load_data("level")
 
 func save(type):
 	var file = File.new()
@@ -26,9 +30,10 @@ func load_data(type : String):
 	var file = File.new()
 	if check_file(type):
 		file.open(files[type].file, File.READ)
-		var read_dictionary = str2var(file.get_as_text())
-		files[type].data = read_dictionary
-		file.close()
+		if file.get_as_text().length() > 0:
+			var read_dictionary = str2var(file.get_as_text())
+			files[type].data = read_dictionary
+			file.close()
 
 func check_file(type):
 	var file = File.new()
