@@ -46,8 +46,8 @@ func update_settings(open := true ) -> void:
 		_settings.resolution = OS.window_size
 		var data = SaveLoad.files.settings.data
 		_settings = data
-	update_settings_visual()
 	apply_settings()
+	update_settings_visual()
 	if open:
 		MainInstances.console.Log("Settings applied.", .1, 1)
 	$ColorRect/VBoxContainer/HBoxContainer2/ResolutionHolder.visible = !_settings.fullscreen
@@ -56,6 +56,8 @@ func update_settings(open := true ) -> void:
 func apply_settings():
 	resolution_input.placeholder_text = str(_settings.resolution.x) + "x" + str(_settings.resolution.y)
 	OS.window_fullscreen = _settings.fullscreen
+	if _settings.fullscreen:
+		_settings.resolution = OS.get_screen_size()
 	OS.set_window_size(_settings.resolution)
 	OS.vsync_enabled = _settings.vsync
 	globalsettings.stopwatch = _settings.stopwatch
@@ -63,13 +65,16 @@ func apply_settings():
 func _on_ResolutionInput_text_entered(new_text : String):
 	if starting: return
 	var text = new_text.split("x")
-	if text.size() < 1: 
+	if text.size() < 2: 
 		MainInstances.console.Log("Please split text with a x (1270x720)", 2.5, 5)
 		return
+	var text_processed = []
 	for number in text:
+		number = int(number)
 		number = round(number)
 		number = clamp(number, 400, 4000)
-	var new_res = Vector2(text[0], text[1])
+		text_processed.append(number)
+	var new_res = Vector2(text_processed[0], text_processed[1])
 	_settings.resolution = new_res
 	update_settings()
 
