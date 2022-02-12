@@ -24,16 +24,17 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
 margin_left = 118.0
-margin_top = 56.0
+margin_top = 59.0
 margin_right = 201.0
-margin_bottom = 264.0
+margin_bottom = 261.0
 custom_constants/separation = 4
 
 [node name="StartButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
-margin_right = 83.0
+margin_left = 5.0
+margin_right = 77.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 72, 32 )
-size_flags_horizontal = 7
+size_flags_horizontal = 6
 size_flags_vertical = 0
 theme = ExtResource( 1 )
 text = "start"
@@ -45,19 +46,20 @@ margin_bottom = 68.0
 rect_min_size = Vector2( 0, 21 )
 
 [node name="LoadButton" type="Button" parent="Control/CenterContainer/VBoxContainer/HBoxContainer"]
-margin_right = 83.0
+margin_left = 5.0
+margin_right = 77.0
 margin_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 72, 32 )
-size_flags_horizontal = 7
-size_flags_vertical = 3
+size_flags_horizontal = 6
+size_flags_vertical = 0
 text = "load"
 
 [node name="Spinbox" type="SpinBox" parent="Control/CenterContainer/VBoxContainer/HBoxContainer"]
 visible = false
-margin_left = 68.0
-margin_right = 157.0
+margin_left = 76.0
+margin_right = 165.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( 43, 3 )
@@ -75,7 +77,7 @@ margin_top = 72.0
 margin_right = 83.0
 margin_bottom = 104.0
 rect_min_size = Vector2( 83, 32 )
-size_flags_horizontal = 7
+size_flags_horizontal = 6
 size_flags_vertical = 0
 theme = ExtResource( 1 )
 text = "continue"
@@ -83,22 +85,23 @@ text = "continue"
 [node name="Gap2" type="Control" parent="Control/CenterContainer/VBoxContainer"]
 margin_top = 108.0
 margin_right = 83.0
-margin_bottom = 118.0
-rect_min_size = Vector2( 0, 10 )
+margin_bottom = 112.0
+rect_min_size = Vector2( 0, 4 )
 
 [node name="QuitButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
-margin_top = 122.0
-margin_right = 83.0
-margin_bottom = 154.0
+margin_left = 5.0
+margin_top = 116.0
+margin_right = 77.0
+margin_bottom = 148.0
 rect_min_size = Vector2( 72, 32 )
-size_flags_horizontal = 7
+size_flags_horizontal = 6
 size_flags_vertical = 0
 text = "exit(!)"
 
 [node name="Gap" type="Control" parent="Control/CenterContainer/VBoxContainer"]
-margin_top = 158.0
+margin_top = 152.0
 margin_right = 83.0
-margin_bottom = 208.0
+margin_bottom = 202.0
 rect_min_size = Vector2( 0, 50 )
 
 [node name="Label" type="Label" parent="Control"]

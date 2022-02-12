@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=13 format=2]
+[gd_resource type="Theme" load_steps=14 format=2]
 
 [ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://transparency.png" type="Texture" id=2]
@@ -19,12 +19,15 @@ extra_spacing_top = 3
 extra_spacing_char = 1
 font_data = ExtResource( 1 )
 
+[sub_resource type="StyleBoxEmpty" id=6]
+
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.3009, 0.59, 0.3009, 1 )
 
 [resource]
 default_font = ExtResource( 5 )
 Button/colors/font_color = Color( 1, 1, 1, 1 )
+Button/colors/font_color_disabled = Color( 0.901961, 0.901961, 0.901961, 0 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 0, 0, 0, 1 )
 Button/colors/font_color_pressed = Color( 0, 0, 0, 1 )
@@ -56,9 +59,11 @@ CheckBox/styles/hover = ExtResource( 3 )
 CheckBox/styles/hover_pressed = ExtResource( 3 )
 CheckBox/styles/normal = ExtResource( 4 )
 CheckBox/styles/pressed = ExtResource( 4 )
+LineEdit/colors/font_color_uneditable = Color( 0.878431, 0.878431, 0.878431, 0 )
 LineEdit/fonts/font = SubResource( 3 )
 LineEdit/styles/focus = ExtResource( 8 )
 LineEdit/styles/normal = ExtResource( 4 )
+LineEdit/styles/read_only = SubResource( 6 )
 ProgressBar/colors/font_color = Color( 1, 1, 1, 1 )
 ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
 ProgressBar/styles/bg = ExtResource( 4 )
