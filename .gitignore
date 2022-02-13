@@ -5,3 +5,4 @@
 
 # Mono-specific ignores
 .mono/
+.DS_Store
