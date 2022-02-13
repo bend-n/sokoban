@@ -12,6 +12,8 @@ var wall_positions :PoolVector2Array = []
 var crate_prefab = preload("res://Crate.tscn")
 var target_prefab = preload("res://Target.tscn")
 
+var game_over := false
+
 onready var crates = $LevelContainer/Crates
 onready var player = $LevelContainer/Player
 onready var targets = $LevelContainer/Targets
@@ -71,6 +73,7 @@ func _exit_tree():
 		thread.wait_to_finish()
 
 func _reset_level(decorate):
+	game_over = false
 	player.initialize()
 	delete_children(crates)
 	if decorate:
@@ -190,7 +193,9 @@ func _on_Player_level_reset_requested():
 	emit_signal("level_reset")
 
 func _on_Crate_game_over():
-	emit_signal("game_over")
+	if not game_over:
+		game_over = true
+		emit_signal("game_over")
 
 func add_target(tile_pos):
 	var target = target_prefab.instance()

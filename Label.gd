@@ -9,6 +9,7 @@ func _dialogue( string ):
 	for letter in string:
 		Timer.start()
 		text += letter
+		print(text)
 		yield(Timer, "timeout")
 
 func _erase():

@@ -37,13 +37,6 @@ func entered_target(_target):
 	_update_check_mark()
 	emit_signal("target_updated")
 	
-#	if not get_parent().get_parent().get_parent().just_started:
-#
-#		SoundFx.play("target")
-#		Music.lower_sound()
-#		yield(get_tree().create_timer(12), "timeout")
-#		Music.continue_playback()
-
 func left_target(_target):
 	target_count -= 1
 	_update_check_mark()
@@ -53,6 +46,7 @@ func _update_check_mark():
 	$CheckSprite.visible = target_count > 0
 
 func check_over():
+	yield(get_tree().create_timer(0.2), "timeout")
 	if target_count == 0 and not main.game_over and _is_stuck_in_a_corner():
 		emit_signal("game_over_detected")
 

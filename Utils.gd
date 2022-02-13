@@ -7,6 +7,7 @@ var loading = false
 var loading_int = 0
 
 var loadScreen : CanvasLayer = null
+var stop_input = false
 
 signal loaded_loading_screen
 
@@ -41,3 +42,9 @@ func unload_loading_screen():
 		return
 	loadScreen.exit()
 	loadScreen = null
+
+
+func _set_disable_inputs(inputs):
+	stop_input = inputs
+	get_viewport().gui_disable_input = inputs
+	get_tree().call_group("input", "set_process_input", !inputs)

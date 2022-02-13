@@ -11,6 +11,7 @@ var last_move_crate = null
 var world : Node2D
 var count = 0
 var started = false
+var won := false
 
 signal won
 
@@ -25,6 +26,7 @@ func _ready():
 	anitree.active = true
 
 func initialize():
+	won = false
 	set_physics_process(false)
 	yield(get_tree().create_timer(2),"timeout")
 	set_physics_process(true)
@@ -40,6 +42,9 @@ func _physics_process(_delta):
 		return
 	
 	if not world:
+		return
+	
+	if Utils.stop_input:
 		return
 	
 	if get_parent().get_parent().just_started:
@@ -140,4 +145,8 @@ func apply_rotation(offset : Vector2):
 
 func _on_Player_body_exited(body):
 	if not body.name == "Player" and not body.is_in_group("crates"):
+		print("emitting won")
+		if won:
+			return
 		emit_signal("won")
+		won = true

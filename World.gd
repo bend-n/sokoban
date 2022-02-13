@@ -1,13 +1,13 @@
 extends Node2D
 
-var currentintlevel :int = 1
+var currentintlevel := 1
 var screenshots = 0
 var game_over = false setget set_over
 var game_won = false setget set_won
 var over = false
 var just_started = true
 
-onready var level = $Level
+onready var level := $Level
 onready var console = MainInstances.console
 
 const path = "user://"
@@ -26,13 +26,9 @@ func _ready():
 	level.connect("level_completed", self, "_on_Level_level_completed")
 	level.connect("level_reset", self, "_on_Level_level_reset")
 	level.connect("game_over", self, "_on_Level_game_over")
-#	level.connect("level_made", self, "_on_Level_made")
-#	$StartScreen.connect("start", self, "_on_start_start")
-#	$StartScreen.connect("load_level", self, "_on_start_load")
 
 func _on_Level_level_completed(complete = false):
 	$Level/CanvasLayer/HUD/StopWatch.set_process(false)
-	
 	if complete:
 		$WinScreen.show(str(level.current_level))
 		save(currentintlevel + 1)
@@ -44,7 +40,7 @@ func _on_Level_level_completed(complete = false):
 
 func _on_Level_level_reset():
 	$WinScreen.hide(true)
-	$GameoverScreen.hide(true)
+	$GameoverScreen.hide(true)	
 	game_over = false
 	game_won = false
 
@@ -57,8 +53,7 @@ func save(new_level): # what level are we on/going to
 func _on_Level_game_over():
 	game_over = true
 	game_won = false
-	if not $GameoverScreen.shown:
-		$GameoverScreen.show(str(level.current_level))
+	$GameoverScreen.show(str(level.current_level))
 
 onready var cam = $Level/LevelContainer/Player.cam
 

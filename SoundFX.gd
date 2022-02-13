@@ -3,10 +3,9 @@ extends Node
 var res = "res://"
 
 var sounds = {
-	"target" : load(res + "victorytune.wav"),
 	"victory" : load(res + "victory.wav"),
 	"motion_box" : load(res + "motion_box.wav"),
-	"defeat" :  load(res + "defeat.wav"),
+	"defeat" :  load(res + "gameover.wav"),
 	"walk" : load(res + "walk.wav")
 }
 

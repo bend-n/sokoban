@@ -94,3 +94,4 @@ func _on_StopwatchBox_toggled(button_pressed):
 	if starting: return
 	_settings.stopwatch = button_pressed
 	update_settings()
+	
