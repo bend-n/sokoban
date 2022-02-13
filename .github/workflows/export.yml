@@ -1,8 +1,9 @@
 # Whenever a push is made to the master branch then run the job
-on: 
+on:
+  
   push:
     branches:
-      - master
+      - main
 
 jobs:
   # job id, can be anything
