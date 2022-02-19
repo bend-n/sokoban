@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
 [ext_resource path="res://04B_19__.TTF" type="DynamicFontData" id=2]
@@ -6,6 +6,46 @@
 [ext_resource path="res://PlayerWalk.tscn" type="PackedScene" id=4]
 [ext_resource path="res://LoadingScreen.gd" type="Script" id=6]
 [ext_resource path="res://Back.tscn" type="PackedScene" id=7]
+
+[sub_resource type="Shader" id=31]
+code = "shader_type canvas_item;
+
+uniform vec4 fore_color : hint_color = vec4(0.5, 0.75, 1.0, 1.0);
+uniform vec4 back_color : hint_color = vec4(1.0, 1.0, 1.0, 1.0);
+
+void fragment()
+{
+	float aspect = (1.0 / TEXTURE_PIXEL_SIZE).y/(1.0 / TEXTURE_PIXEL_SIZE).x;
+	float value;
+	vec2 uv = UV.xy / (1.0 / TEXTURE_PIXEL_SIZE).x;
+	uv -= vec2(0.5, 0.5*aspect);
+	float rot = radians(45.0); // radians(45.0*sin(iTime));
+	vec2 part1 = vec2(cos(rot), -sin(rot));
+	vec2 part2 = vec2(sin(rot), cos(rot));
+	mat2 m = mat2(part1, part2);
+	uv = m * uv;
+	uv += vec2(0.5, 0.5*aspect);
+	uv.y+=0.5*(1.0-aspect);
+	vec2 pos = 10.0*uv;
+	vec2 rep = fract(pos);
+	float dist = 2.0*min(min(rep.x, 1.0-rep.x), min(rep.y, 1.0-rep.y));
+	float squareDist = length((floor(pos)+vec2(0.5)) - vec2(5.0) );
+	float edge = sin(TIME-squareDist*0.5)*0.5+0.5;
+	edge = (TIME-squareDist*0.5)*0.5;
+	edge = 2.0*fract(edge*0.5);
+	value = fract (dist*2.0);
+	value = mix(value, 1.0-value, step(1.0, edge));
+	edge = pow(abs(1.0-edge), 2.0);
+	value = smoothstep( edge-0.05, edge, 0.95*value);
+	value += squareDist*.1;
+	COLOR = mix(back_color, fore_color, value);
+	//COLOR.a = 0.25*clamp(value, 0.0, 1.0);
+}"
+
+[sub_resource type="ShaderMaterial" id=32]
+shader = SubResource( 31 )
+shader_param/fore_color = Color( 0.5, 0.75, 1, 1 )
+shader_param/back_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="OccluderPolygon2D" id=4]
 polygon = PoolVector2Array( -48, -48, -48, 48, 48, 48, 48, -48 )
@@ -59,7 +99,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( -2, -2 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.18 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=26]
@@ -106,7 +146,7 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=27]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Container/occluder:modulate")
+tracks/0/path = NodePath("Container:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -115,27 +155,15 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Container:modulate")
+tracks/1/path = NodePath("Container/Path/PathFollow/Light:energy")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Container/Path/PathFollow/Light:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -214,6 +242,7 @@ layer = 2
 script = ExtResource( 6 )
 
 [node name="Container" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -221,10 +250,7 @@ __meta__ = {
 }
 
 [node name="Back" parent="Container" instance=ExtResource( 7 )]
-margin_left = -256.0
-margin_top = -256.0
-margin_right = 320.0
-margin_bottom = 320.0
+material = SubResource( 32 )
 
 [node name="occluder" type="LightOccluder2D" parent="Container"]
 position = Vector2( 160, 160 )
@@ -244,16 +270,16 @@ margin_left = -81.0
 margin_top = -21.0
 margin_right = 81.0
 margin_bottom = 21.0
-rect_rotation = 24.7415
-rect_scale = Vector2( 1.338, 1.338 )
+rect_rotation = -28.9766
+rect_scale = Vector2( 0.789688, 0.789688 )
 rect_pivot_offset = Vector2( 83.8821, 21.1559 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 0.701299, 0.886936, 1, 1 )
 custom_colors/font_color_shadow = Color( 0.188235, 0.294118, 0.411765, 1 )
 custom_fonts/font = SubResource( 3 )
 text = "Loading!"
 align = 1
 valign = 1
-percent_visible = 0.2
+percent_visible = 0.999728
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -278,8 +304,6 @@ position = Vector2( 0, 256 )
 curve = null
 
 [node name="PathFollow" type="PathFollow2D" parent="Container/Path"]
-position = Vector2( 192, 64 )
-rotation = 1.10714
 lookahead = 2.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Container/Path/PathFollow"]
@@ -288,8 +312,6 @@ anims/Animate = SubResource( 29 )
 anims/RESET = SubResource( 30 )
 
 [node name="Light" type="Light2D" parent="Container/Path/PathFollow"]
-rotation = -0.124351
-scale = Vector2( 1, 1 )
 texture = ExtResource( 3 )
 color = Color( 0.321569, 0.745098, 0.745098, 1 )
 range_layer_min = -2

@@ -122,8 +122,9 @@ tracks/3/keys = {
 script = ExtResource( 3 )
 
 [node name="LevelContainer" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = -8.0
+margin_right = 336.0
+margin_bottom = 320.0
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -141,6 +142,7 @@ cell_size = Vector2( 16, 16 )
 format = 1
 
 [node name="Others" parent="LevelContainer" instance=ExtResource( 6 )]
+tile_data = PoolIntArray( 196622, 15, 0 )
 
 [node name="Targets" type="Node2D" parent="LevelContainer"]
 
@@ -160,6 +162,7 @@ cell_size = Vector2( 16, 16 )
 collision_layer = 3
 collision_mask = 3
 format = 1
+tile_data = PoolIntArray( 458766, 1, 3, 524302, 1, 327687, 524303, 1, 196610 )
 
 [node name="LevelComplete" type="AnimationPlayer" parent="LevelContainer"]
 anims/Animate = SubResource( 3 )
