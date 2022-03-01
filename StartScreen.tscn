@@ -23,15 +23,15 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
-margin_left = 88.0
-margin_top = 41.0
-margin_right = 232.0
-margin_bottom = 279.0
+margin_left = 118.0
+margin_top = 59.0
+margin_right = 201.0
+margin_bottom = 261.0
 custom_constants/separation = 4
 
 [node name="StartButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
-margin_left = 36.0
-margin_right = 108.0
+margin_left = 5.0
+margin_right = 77.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 72, 32 )
 size_flags_horizontal = 6
@@ -41,13 +41,13 @@ text = "start"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/CenterContainer/VBoxContainer"]
 margin_top = 36.0
-margin_right = 144.0
+margin_right = 83.0
 margin_bottom = 68.0
 rect_min_size = Vector2( 0, 21 )
 
 [node name="LoadButton" type="Button" parent="Control/CenterContainer/VBoxContainer/HBoxContainer"]
-margin_left = 36.0
-margin_right = 108.0
+margin_left = 5.0
+margin_right = 77.0
 margin_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -73,9 +73,8 @@ rounded = true
 align = 1
 
 [node name="ContinueButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
-margin_left = 30.0
 margin_top = 72.0
-margin_right = 113.0
+margin_right = 83.0
 margin_bottom = 104.0
 rect_min_size = Vector2( 83, 32 )
 size_flags_horizontal = 6
@@ -85,14 +84,14 @@ text = "continue"
 
 [node name="Gap2" type="Control" parent="Control/CenterContainer/VBoxContainer"]
 margin_top = 108.0
-margin_right = 144.0
+margin_right = 83.0
 margin_bottom = 112.0
 rect_min_size = Vector2( 0, 4 )
 
 [node name="QuitButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
-margin_left = 36.0
+margin_left = 5.0
 margin_top = 116.0
-margin_right = 108.0
+margin_right = 77.0
 margin_bottom = 148.0
 rect_min_size = Vector2( 72, 32 )
 size_flags_horizontal = 6
@@ -100,6 +99,7 @@ size_flags_vertical = 0
 text = "exit(!)"
 
 [node name="LoadScreenButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
+visible = false
 margin_top = 152.0
 margin_right = 144.0
 margin_bottom = 184.0
@@ -109,9 +109,9 @@ size_flags_vertical = 0
 text = "test load screen"
 
 [node name="Gap" type="Control" parent="Control/CenterContainer/VBoxContainer"]
-margin_top = 188.0
-margin_right = 144.0
-margin_bottom = 238.0
+margin_top = 152.0
+margin_right = 83.0
+margin_bottom = 202.0
 rect_min_size = Vector2( 0, 50 )
 
 [node name="Label" type="Label" parent="Control"]
