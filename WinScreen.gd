@@ -1,7 +1,8 @@
 extends CanvasLayer
 
-var player : KinematicBody2D
+var player: KinematicBody2D
 var shown = false
+
 
 func show(integer):
 	shown = true
@@ -9,6 +10,7 @@ func show(integer):
 	$Container.visible = true
 	$Container/Label._dialogue("LEVEL %s COMPLETED PRESS enter TO CONTINUE!" % integer)
 	SoundFx.play("victory", -15)
+
 
 func hide(backwards = true):
 	if backwards:

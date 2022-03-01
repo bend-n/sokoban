@@ -3,10 +3,10 @@ extends Node
 var res = "res://"
 
 var sounds = {
-	"victory" : load(res + "victory.wav"),
-	"motion_box" : load(res + "motion_box.wav"),
-	"defeat" :  load(res + "gameover.wav"),
-	"walk" : load(res + "walk.wav")
+	"victory": load(res + "victory.wav"),
+	"motion_box": load(res + "motion_box.wav"),
+	"defeat": load(res + "gameover.wav"),
+	"walk": load(res + "walk.wav")
 }
 
 onready var sound_players = get_children()

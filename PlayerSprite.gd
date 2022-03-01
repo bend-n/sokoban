@@ -6,13 +6,14 @@ onready var initial_pos = position
 
 var start_new = true
 
+
 func _physics_process(_delta):
 	if tween.is_active():
 		return
-	
+
 	if not start_new:
 		return
-	
+
 	tween.interpolate_property(
 		self,
 		"position",
@@ -23,6 +24,7 @@ func _physics_process(_delta):
 		tween.EASE_IN_OUT
 	)
 	tween.start()
+
 
 func _on_VisibilityNotifier2D_screen_exited():
 	start_new = false

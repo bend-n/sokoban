@@ -1,12 +1,15 @@
 extends Control
 
-var _settings := {resolution = Vector2(1280, 720), fullscreen = true, vsync = false, stopwatch = false}
+var _settings := {
+	resolution = Vector2(1280, 720), fullscreen = true, vsync = false, stopwatch = false
+}
 var starting = true
 
-export (NodePath) onready var vsyncbutton = get_node(vsyncbutton)
-export (NodePath) onready var fullscreenbutton = get_node(fullscreenbutton)
-export (NodePath) onready var resolution_input = get_node(resolution_input)
-export (NodePath) onready var stopwatchbox = get_node(stopwatchbox)
+export(NodePath) onready var vsyncbutton = get_node(vsyncbutton)
+export(NodePath) onready var fullscreenbutton = get_node(fullscreenbutton)
+export(NodePath) onready var resolution_input = get_node(resolution_input)
+export(NodePath) onready var stopwatchbox = get_node(stopwatchbox)
+
 
 func _ready():
 	var data = SaveLoad.files.settings.data
@@ -16,30 +19,41 @@ func _ready():
 	_settings.fullscreen = data.fullscreen
 	update_settings(false)
 
+
 func start():
 	starting = false
 	yield(get_tree().create_timer(.3), "timeout")
 	$ColorRect/ExitButton.grab_focus()
 	show()
 
+
 func update_settings_visual():
 	fullscreenbutton.pressed = _settings.fullscreen
 	vsyncbutton.pressed = _settings.vsync
-	var resolution_text_placeholder = str(_settings.resolution.x) + "x" + str(_settings.resolution.y)
+	var resolution_text_placeholder = (
+		str(_settings.resolution.x)
+		+ "x"
+		+ str(_settings.resolution.y)
+	)
 	resolution_input.placeholder_text = resolution_text_placeholder
 	stopwatchbox.pressed = _settings.stopwatch
 
+
 func _on_VscynButton_toggled(button_pressed):
-	if starting: return
+	if starting:
+		return
 	_settings.vsync = button_pressed
 	update_settings()
 
+
 func _on_FullscreenButton_toggled(button_pressed):
-	if starting: return
+	if starting:
+		return
 	_settings.fullscreen = button_pressed
 	update_settings()
 
-func update_settings(open := true ) -> void:
+
+func update_settings(open := true) -> void:
 	if not open:
 		_settings.vsync = OS.vsync_enabled
 		_settings.fullscreen = OS.window_fullscreen
@@ -53,8 +67,13 @@ func update_settings(open := true ) -> void:
 	$ColorRect/VBoxContainer/HBoxContainer2/ResolutionHolder.visible = !_settings.fullscreen
 	SaveLoad.save("settings")
 
+
 func apply_settings():
-	resolution_input.placeholder_text = str(_settings.resolution.x) + "x" + str(_settings.resolution.y)
+	resolution_input.placeholder_text = (
+		str(_settings.resolution.x)
+		+ "x"
+		+ str(_settings.resolution.y)
+	)
 	OS.window_fullscreen = _settings.fullscreen
 	if _settings.fullscreen:
 		_settings.resolution = OS.get_screen_size()
@@ -62,10 +81,12 @@ func apply_settings():
 	OS.vsync_enabled = _settings.vsync
 	globalsettings.stopwatch = _settings.stopwatch
 
-func _on_ResolutionInput_text_entered(new_text : String):
-	if starting: return
+
+func _on_ResolutionInput_text_entered(new_text: String):
+	if starting:
+		return
 	var text = new_text.split("x")
-	if text.size() < 2: 
+	if text.size() < 2:
 		MainInstances.console.Log("Please split text with a x (1270x720)", 2.5, 5)
 		return
 	var text_processed = []
@@ -78,9 +99,12 @@ func _on_ResolutionInput_text_entered(new_text : String):
 	_settings.resolution = new_res
 	update_settings()
 
+
 func _on_ResolutionButton_pressed():
-	if starting: return
+	if starting:
+		return
 	resolution_input.visible = !resolution_input.visible
+
 
 func _on_ExitButton_pressed():
 	hide()
@@ -90,8 +114,9 @@ func _on_ExitButton_pressed():
 	else:
 		push_warning("Parent of %s not pausemenu" % self)
 
+
 func _on_StopwatchBox_toggled(button_pressed):
-	if starting: return
+	if starting:
+		return
 	_settings.stopwatch = button_pressed
 	update_settings()
-	
