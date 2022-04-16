@@ -141,11 +141,13 @@ func apply_rotation(offset: Vector2):
 		)
 		tween.start()
 
+
 func _over():
 	if won:
 		return
 	emit_signal("won")
 	won = true
+
 
 func _on_Player_body_exited(_body):
 	pass
