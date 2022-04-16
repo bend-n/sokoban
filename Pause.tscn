@@ -23,9 +23,6 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.27451 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="PauseMenu/ColorRect"]
 margin_left = 24.0
@@ -56,6 +53,15 @@ margin_bottom = 30.0
 rect_min_size = Vector2( 90, 30 )
 size_flags_vertical = 0
 text = "exit(!)"
+
+[node name="BackButton" type="Button" parent="PauseMenu/ColorRect/CenterContainer/VBoxContainer"]
+visible = false
+margin_top = 34.0
+margin_right = 90.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 90, 30 )
+size_flags_vertical = 0
+text = "back"
 
 [node name="SettingsButton" type="Button" parent="PauseMenu/ColorRect/CenterContainer/VBoxContainer"]
 margin_top = 34.0
@@ -95,5 +101,6 @@ __meta__ = {
 visible = false
 
 [connection signal="pressed" from="PauseMenu/ColorRect/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="PauseMenu/ColorRect/CenterContainer/VBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="PauseMenu/ColorRect/CenterContainer/VBoxContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="toggled" from="Settings" to="." method="_on_Settings_toggled"]

@@ -29,3 +29,7 @@ func _on_SettingsButton_pressed():
 
 func _on_Back_pressed():
 	pause_toggle(false)
+
+
+func _on_BackButton_pressed():
+	get_tree().change_scene("res://StartScreen.tscn")
