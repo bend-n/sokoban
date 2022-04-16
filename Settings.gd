@@ -1,7 +1,7 @@
 extends Control
 
 var _settings := {
-	resolution = Vector2(1280, 720), fullscreen = true, vsync = false, stopwatch = false
+	resolution = Vector2(1280, 720), fullscreen = true, vsync = true, stopwatch = false
 }
 var starting = true
 
