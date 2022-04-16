@@ -2,6 +2,7 @@
 # Godot-specific ignores
 .import/
 *.import
+exports/
 
 # Mono-specific ignores
 .mono/
